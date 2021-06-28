@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="box">
+    <input type="text" ref="mytext">
+    <button @click="handleAdd">add</button>
+    <!--    <input type="text" ref="mytext">-->
+    <!--    <button @click="handleClick">click</button>-->
+    <child ref="mychild"></child>
+</div>
+<script>
+    Vue.component('child', {
+        template: `<div>child組件 {{ childname }}</div>`,
+        data() {
+            return {
+                'childname': '子組件的狀態'
+            }
+        },
+        methods: {
+            getValue(data) {
+                console.log('從組件傳過來的值', data)
+            },
+            handleAdd() {
+                console.log('handleAdd', this.childname)
+            }
+        }
+    })
+    const vm = new Vue({
+        el: '#box',
+        data: {},
+        methods: {
+            handleAdd() {
+                console.log('handleAdd', this.$refs.mytext.value)
+                console.log(this.$refs)
+                this.$refs.mychild.childname = 'hello'
+                console.log(this.$refs.mychild, this.$refs.mychild.childname)
+                this.$refs.mychild.getValue('hello')
+                this.$refs.mychild.handleAdd()
+            },
+        },
+    })
+</script>
+</body>
+</html>

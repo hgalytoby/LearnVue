@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+
+<div id="box">
+    <input type="text" v-model="mytext">
+    {{ mytext }}
+    <textarea name="" id="" cols="30" rows="10" v-model="mytext"></textarea>
+    <input type="checkbox" v-model="isCheckbox" @click="ft">
+    <p>運動
+        <input type="checkbox" v-model="checkgroup" value="游泳"> 游泳
+        <input type="checkbox" v-model="checkgroup" value="溜冰"> 溜冰
+        <input type="checkbox" v-model="checkgroup" value="跑步"> 跑步
+    </p>
+    {{ checkgroup }}
+    <p>語言
+        <input type="radio" v-model="radio" value="python"> python
+        <input type="radio" v-model="radio" value="js"> js
+        <input type="radio" v-model="radio" value="django"> django
+    </p>
+    {{ radio }}
+</div>
+
+<script type="text/javascript">
+    const vm = new Vue({
+        el: '#box',
+        data: {
+            'mytext': '',
+            'isCheckbox': false,
+            'checkgroup': [],
+            'radio': ''
+        },
+        methods: {
+            ft() {
+                console.log(this.isCheckbox)
+            }
+        }
+    })
+</script>
+</body>
+</html>

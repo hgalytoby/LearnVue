@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="box">
+    {{ myname.substring(0, 1).toUpperCase() + myname.substring(1) }}
+    <p></p>
+    <p>屬性 {{ getMyName }}</p>
+    <p>方法 {{ getMyNameMethod() }}</p>
+    <p></p>
+    <div>
+        <p>屬性 {{ getMyName }}</p>
+        <p>方法 {{ getMyNameMethod() }}</p>
+    </div>
+</div>
+<script type="text/javascript">
+    const vue = new Vue({
+        el: '#box',
+        // delimiters: ["[[", "]]"],
+        data: {
+            'myname': 'xiaoming',
+        },
+        methods: {
+            getMyNameMethod() {
+                console.log('方法')
+                return this.myname.substring(0, 1).toUpperCase() + this.myname.substring(1)
+            }
+        },
+        computed: {
+            getMyName() {
+                console.log('屬性')
+                return this.myname.substring(0, 1).toUpperCase() + this.myname.substring(1)
+            }
+        }
+    })
+</script>
+</body>
+</html>

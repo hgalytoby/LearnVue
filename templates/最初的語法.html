@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+    <style>
+        .red {
+            background: red;
+        }
+
+        .yellow {
+            background: yellow;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    {{ 10+20 }}
+    {{ 10 > 20 ? "a":"b"}}
+    {{ myname }}
+    <div v-html="myhtml"></div>
+    <img v-bind:src="mysrc" alt="">
+    <div v-bind:class="isActive?'red':'yellow'">切換 class 進行背景顯示</div>
+    <div :class="isActive?'red':'yellow'">不用 v-bind 用冒號就好</div>
+    <div :class="classObj">用字典</div>
+    <div :class="classArr">用陣列</div>
+    <div :style="'background:' + (isActive? 'red' : 'yellow')">我是動態綁定 style-三目寫法(不知道什麼叫三目)</div>
+    <div :style="styleObj">我是動態綁定 style-字典寫法</div>
+    <!--  styleArr 可以在瀏覽器 console 輸入 vue.styleArr.push({'font-size': '30px'}) or vue.styleArr.push({'background': 'red'})  -->
+    <div :style="styleArr">我是動態綁定 style-陣列寫法</div>
+    <button @click="onBackground()">切換背景色</button>
+    <div v-if="isCreated">動態創建和刪除</div>
+    <div v-show="isShow">動態顯示和隱藏</div>
+    <button v-on:click="onClickButton()">按下按鈕</button>
+    <button @click="onClickButton()">小老鼠寫法 按下按鈕</button>
+    <button v-on:mouseover="onClickButton()">滑鼠碰到按鈕</button>
+    <button v-on:mouseout="onClickButton()">滑鼠離開按鈕</button>
+    <button v-on:mousedown="onClickButton()">按住按鈕</button>
+    <!--    <button v-on:mouseup="onClickButton()">按下後離開，應該跟click差不多了</button>-->
+    <!--    <button v-on:mouseleave="onClickButton()">滑鼠離開按鈕，跟滑鼠離開按鈕差不多</button>-->
+    <!--    <button v-on:mouseenter="onClickButton()">滑鼠碰到按鈕，跟over差不多</button>-->
+    <ul>
+        <li v-for="data in dataList">{{ data }}</li>
+    </ul>
+    <ul :class="key" v-for="[key, value] of Object.entries(dataDict)">
+        <li v-for="v in value">{{ v }}</li>
+    </ul>
+</div>
+
+<div id="box2">
+    <input class="addLiInput" v-model="inputText" type="text">
+    <button class='addLiButton' @click="addLiButton()">新增</button>
+    <ul>
+        <li v-for="(li_data, index) in liList">{{ li_data }}
+            <button v-on:click="deleteLiButton(index)">刪除</button>
+        </li>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    const vue = new Vue({
+        // new Vue({
+        el: '#box',
+        data: {
+            isActive: true,
+            isShow: true,
+            isCreated: true,
+            classObj: {
+                'a': true,
+                'b': true,
+            },
+            classArr: ['a', 'b'],
+            styleObj: {
+                'background-color': 'red',
+                // backgroundColor: 'red', << 如果不用 單引號包起來直接輸入 background-color 會有問題，所以要用駝峰命名法
+            },
+            styleArr: [],
+            myname: "hello",
+            myhtml: "<b>11111111</b>",
+            mysrc: "https://www.google.com/images/branding/googlelogo/1x/googlelogo_white_background_color_272x92dp.png",
+            dataList: ['111', '222', '333', '444'],
+            dataDict: {
+                'a': ['111', '222', '333', '444'],
+                'b': ['555', '666', '777', '888'],
+            }
+        },
+        methods: {
+            onClickButton: function () {
+                this.isShow = !this.isShow
+                if (this.myname === 'hello') {
+                    this.myname = 'world'
+                } else {
+                    this.myname = 'hello'
+                }
+            },
+            onBackground() {
+                this.isActive = !this.isActive
+            }
+        }
+    })
+    const box2 = new Vue({
+        el: '#box2',
+        data: {
+            inputText: 'default',
+            liList: [111, 222, 333, 444],
+        },
+        methods: {
+            addLiButton() {
+                this.liList.push(this.inputText)
+            },
+            deleteLiButton(index) {
+                this.liList.splice(index, 0)
+            }
+        }
+    })
+</script>
+</body>
+</html>

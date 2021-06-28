@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="box">
+    <button @click="handleClick()">click</button>
+    <div v-if="isCreated">動態創建跟刪除-if</div>
+    <div v-else>動態創建跟刪除-else</div>
+    <!--        <ul v-if="isCreated">-->
+    <ul v-if="datalist.length">
+        <li v-for="data in datalist">
+            {{ data }}
+        </li>
+    </ul>
+    <!--   if 和 else 配合     -->
+    <div v-else>空的</div>
+    <div v-if="which === 1">if</div>
+    <div v-else-if="which === 2">elseif</div>
+    <div v-else>else</div>
+</div>
+<script type="text/javascript">
+    const vue = new Vue({
+        el: '#box',
+        data: {
+            'isCreated': false,
+            'datalist': [],
+            'which': 1,
+        },
+        methods: {
+            handleClick() {
+                this.isCreated = !this.isCreated
+            }
+        }
+    })
+</script>
+</body>
+</html>

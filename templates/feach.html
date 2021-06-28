@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+
+<div id="box">
+    <ul>
+        <li v-for="data in datalist" :value="data['filmsId']">
+            <h3>{{ data['name'] }}</h3>
+            <img :src="data['poster']" alt="">
+        </li>
+    </ul>
+    <button @click="handleButton()">feach click</button>
+</div>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+    const vue = new Vue({
+        el: '#box',
+        data: {
+            "datalist": [],
+        },
+        methods: {
+            handleButton() {
+                fetch("./json/test.json").then(res => {
+                    return res.json()
+                }).then(data => {
+                    this.datalist = data['data']['films']
+                    // this.datalist.push(data['data'][])
+                })
+            },
+        },
+    })
+</script>
+</body>
+</html>

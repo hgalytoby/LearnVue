@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="box">
+    <input type="text" @input="handleInput()" v-model="inputText">
+    <ul>
+        <li v-for="data in datalist">
+            {{ data }}
+        </li>
+    </ul>
+    <input type="text" v-model="newInputText">
+    <ul>
+        <li v-for="data in getMyDataList">
+            {{ data }}
+        </li>
+    </ul>
+</div>
+<script type="text/javascript">
+    const vm = new Vue({
+        el: '#box',
+        data: {
+            'datalist': ['aaa', 'bbb', 'ccc', 'ddd', 'add', 'cee', 'eee'],
+            'basedatalist': ['aaa', 'bbb', 'ccc', 'ddd', 'add', 'cee', 'eee'],
+            'inputText': '',
+            'newInputText': '',
+            'newData': ['aaa', 'bbb', 'ccc', 'ddd', 'add', 'cee', 'eee'],
+        },
+        methods: {
+            handleInput() {
+                console.log('handleInput')
+                this.datalist = this.basedatalist.filter(data => data.indexOf(this.inputText) > -1)
+            },
+        },
+        computed: {
+            getMyDataList() {
+                console.log('computed')
+                return this.newData.filter(data => data.indexOf(this.newInputText) > -1)
+            }
+        }
+    })
+</script>
+</body>
+</html>

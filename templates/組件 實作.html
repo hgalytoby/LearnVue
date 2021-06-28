@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="box">
+    <!--    <button @click="isShow=!isShow">click</button>-->
+    <navbar @myevent="handleClick"></navbar>
+    <sidebar v-show="isShow"></sidebar>
+</div>
+<script type="text/javascript">
+    Vue.component('navbar', {
+        template: `<div>
+            navbar
+            <button @click="handleClick">click</button>
+        </div>`,
+        methods: {
+            handleClick() {
+                this.$emit('myevent') // 分發 事件
+            }
+        }
+    })
+    Vue.component('sidebar', {
+        template: `<div style="background: yellow; width: 200px;">
+            <ul>
+                <li>111</li>
+                <li>222</li>
+                <li>333</li>
+            </ul>
+        </div>`
+    })
+    const vm = new Vue({
+        el: '#box',
+        data: {
+            'isShow': false,
+        },
+        methods: {
+            handleClick() {
+                this.isShow = !this.isShow
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="box">
+    <lineauthor></lineauthor>
+    <p>------------------------------------</p>
+    <linenuser></linenuser>
+</div>
+</body>
+<script type="text/javascript">
+    const bus = new Vue()
+
+    Vue.component('lineauthor', {
+        template: `<div style="background: blue;">
+            我是作者
+            <input type="text" ref="author"/>
+            <button @click="handleClick">發佈</button>
+        </div>`,
+        methods: {
+            handleClick() {
+                bus.$emit('linemessage', this.$refs.author.value, 'hello')
+            }
+        },
+    })
+    Vue.component('linenuser', {
+        template: `<div style="background: yellow;">
+            我是一個使用者
+        </div>`,
+        mounted() {
+            bus.$on('linemessage', (ev, eve) => {
+                console.log('收到訊息', ev, eve)
+            })
+            console.log('生命週期-當前組計 dom 創建完之後就會調用')
+        }
+    })
+
+    const vm = new Vue({
+        el: '#box',
+        data: {},
+    })
+</script>
+</html>

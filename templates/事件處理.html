@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="box">
+    <button @click="handleClick">click1</button>
+    <button @click="handleClick()">click2</button>
+    <button @click="isShow = !isShow">click3</button>
+    <div v-show="isShow">顯示</div>
+
+    <!--    <ul @click="handleUlClick">-->
+    <!--  加.self 只有點到自己才會觸發，子物件不會觸發。  -->
+    <ul @click.self="handleUlClick">
+        <!--    需要用 ev.stopPropagation()    -->
+        <!--        <li @click="handleLiClick($event)">111</li>-->
+        <!--   如果父件有 .self 的話就不用 .stop了     -->
+        <!--    不用帶入 $event 也能抓到 event    -->
+        <li @click.stop="handleLiClick($event)">111</li>
+        <li @click="handleLiClick">222</li>
+        <li @click.once="handleLiClick">333</li>
+    </ul>
+    <!--  需要用 ev.preventDefault()  -->
+    <!--    <a href="https://www.google.com" @click="handleChange">change</a>-->
+    <a href="https://www.google.com" @click.prevent="handleChange">change</a>
+
+    <p></p>
+    <!--  支持的鍵很多，上下左右空白鍵都有， keyup.space, keyup.up...，但並不是所有都支持，所以需要鍵盤對照表例如 S 是83 所以要 keyup.83以此類推-->
+    <input type="text" @keyup.enter="handleKeyup" @keyup.up="handleKeyup">
+    <input type="text" @keyup.17.65.exact="handleManyKeyup">
+</div>
+<script type="text/javascript">
+    const vm = new Vue({
+        el: '#box',
+        up: [83, 87],
+        data: {
+            isShow: false,
+        },
+        methods: {
+            handleClick() {
+                this.isShow = !this.isShow
+            },
+            handleUlClick() {
+                console.log('ul')
+            },
+            handleLiClick(ev) {
+                // ev.stopPropagation()
+                console.log('li', ev)
+            },
+            handleChange(ev) {
+                // ev.preventDefault()
+                console.log(ev)
+            },
+            handleKeyup(ev) {
+                // if (ev['key'] === 'Enter'){
+                //     console.log('執行')
+                // }
+                // if (ev.keyCode === 13){
+                //     console.log('執行')
+                // }
+                console.log('執行')
+            },
+            handleManyKeyup() {
+                console.log('many')
+            }
+
+        }
+    })
+</script>
+</body>
+</html>

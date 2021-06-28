@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        .active {
+            background-color: red;
+        }
+    </style>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="box">
+    <ul>
+        <li v-for="(data, index) in datalist">
+            {{ data }} -- {{ index }} -- in
+        </li>
+    </ul>
+    <p></p>
+    <ul>
+        <li v-for="(data, index) of datalist">
+            {{ data }} -- {{ index }} -- of
+        </li>
+    </ul>
+    <p></p>
+    <ul>
+        <li v-for="(data, key) in dataObj">
+            {{ data }} -- {{ key }} -- in
+        </li>
+    </ul>
+    <p></p>
+    <ul>
+        <li v-for="(data, key) of dataObj">
+            {{ data }} -- {{ key }} -- of
+        </li>
+    </ul>
+    <p></p>
+    <button @click="onClickButtonArr"></button>
+</div>
+<script type="text/javascript">
+    // 更改陣列裡的資料並能反應在頁面上
+    // 不能 list[0] = 1 ，這樣確實有些改道陣列的值，但是頁面上不會反應渲染。
+    // 有兩種方法
+    // 第一種用 list.splice(0, 1, 要改的值)，這樣確實可以更改。
+    // 第二種用 Vue.set(vue物件.list, 第幾個位置, 要改的值)
+    // 以下面的資料為例子 Vue.set(vue.datalist, 0, 123)
+    const vue = new Vue({
+        el: '#box',
+        data: {
+            'datalist': ['111', '222', '33'],
+            'dataObj': {
+                'a': 'a1',
+                'b': 'b1',
+            }
+        },
+        methods: {
+            onClickButtonArr() {
+
+            },
+            onClickButtonObj() {
+
+            },
+        }
+    })
+</script>
+</body>
+</html>

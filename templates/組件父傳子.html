@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="box">
+    <navbar myname="home" :myshow="false"></navbar>
+    <navbar myname="list" :myshow="true"></navbar>
+    <navbar :myname="parentname" :myshow="true"></navbar>
+</div>
+<script type="text/javascript">
+    Vue.component('navbar', {
+        template: `
+            <div>
+                <button>返回</button>
+                navbar -- {{ myname }}
+                <button v-show="myshow">首頁</button>
+            </div>`,
+        props: {
+            'myname': String,
+            'myshow': Boolean
+        }
+    })
+    new Vue({
+        el: '#box',
+        data: {
+            'parentname': '我是父組件狀態'
+        },
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="box">
+    父組件
+    <child @myevent="handleClick"></child>
+    <child @myevent="handleClick($event)"></child>
+</div>
+<script type="text/javascript">
+    Vue.component('child', {
+        template: `
+            <div>
+                <button @click="payMoney">{{ childname }}</button>
+            </div>`,
+        data() {
+            return {
+                'childname': '子組件名字',
+            }
+        },
+        methods: {
+            payMoney() {
+                this.$emit('myevent', this.childname) // 分發 事件
+            }
+        },
+    })
+
+    const vm = new Vue({
+        el: '#box',
+        data: {},
+        methods: {
+            handleClick(ev) {
+                console.log('拿錢啦', ev)
+            }
+        }
+    })
+</script>
+</body>
+</html>

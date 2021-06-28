@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="box">
+    <navbar></navbar>
+    <sidebar></sidebar>
+    <child></child>
+</div>
+<script type="text/javascript">
+    Vue.component('navbar', {
+        template: `
+            <div style="background: yellow">
+                <button @click="handleClickBack">返回</button>
+                我是navbar {{ navbarname }}
+                <button>主頁</button>
+                <child></child>
+                <navbarchild></navbarchild>
+            </div>
+        `,
+        methods: {
+            handleClickBack() {
+                console.log('handleClickBack')
+            }
+        },
+        data() {
+            return {
+                'navbarname': '~navbarname~'
+            }
+        },
+
+        // 局部定義
+        components: {
+            'navbarchild': {
+                template: `
+                    <div> navbarchild 組件-局部定義
+                    </div>
+            `,
+            }
+        }
+    })
+
+    Vue.component('child', {
+        template: `
+            <div> child組件-全局定義
+            </div>
+            `,
+    })
+    Vue.component('sidebar', {
+        template: `
+            <div style="background: red">
+                <button @click="handleClickBack">返回</button>
+                我是sidebar
+                <button>主頁</button>
+                <child></child>
+            </div>
+        `,
+        methods: {
+            handleClickBack() {
+                console.log('handleClickBack')
+            }
+        }
+    })
+    new Vue({
+        el: '#box',
+        data: {},
+    })
+</script>
+</body>
+</html>
