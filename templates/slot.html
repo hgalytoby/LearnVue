@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="box">
+    <child>
+        <div slot="a">aaa</div>
+        <div slot="b">bbb</div>
+        <div slot="c">ccc</div>
+    </child>
+    <dieswiper></dieswiper>
+    <swiper>
+        <li v-for="data in datalist">
+            {{ data }}
+        </li>
+    </swiper>
+</div>
+<script type="text/javascript">
+    Vue.component('child', {
+        template: `<div>
+                <slot name="a"></slot>
+                child
+                <slot name="b"></slot>
+                指定名字
+                <slot name="c"></slot>
+            </div>`
+    })
+    Vue.component('dieswiper', {
+        template: `<div>
+                <ul>
+                    <li>1</li>
+                    <li>3</li>
+                    <li>2</li>
+                </ul>
+            </div>`
+    })
+    Vue.component('swiper', {
+        template: `<div>
+                <ul>
+                    <slot></slot>
+                </ul>
+            </div>`
+    })
+    new Vue({
+        el: '#box',
+        data: {
+            'datalist': ['111', '222', '333']
+        },
+    })
+</script>
+</body>
+</html>

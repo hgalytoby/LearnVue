@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="box">
+    <narbar>
+        <button @click="handleClick">narbar click</button>
+    </narbar>
+    <sidebar v-show="isShow"></sidebar>
+</div>
+<script type="text/javascript">
+    Vue.component('narbar', {
+        template: `<div>
+            narbar
+            <slot></slot>
+        </div>`,
+    })
+    Vue.component('sidebar', {
+        template: `<div style="background: yellow; width: 200px">
+            <ul>
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+            </ul>
+        </div>`,
+    })
+    const vm = new Vue({
+        el: '#box',
+        data: {
+            'isShow': false
+        },
+        methods: {
+            handleClick() {
+                this.isShow = !this.isShow
+            }
+        }
+    })
+</script>
+</body>
+</html>
