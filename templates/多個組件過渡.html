@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+        {# 加了 overflow-y 就可以隱藏滾動條 #} overflow-y: hidden;
+        }
+
+        footer ul {
+            display: flex;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 40px;
+        }
+
+        footer ul li {
+            flex: 1;
+            text-align: center;
+            list-style: none;
+            height: 40px;
+            line-height: 40px;
+            background: gray;
+        }
+
+
+        .bounce-enter-active {
+            animation: bounce-in .5s;
+        }
+
+        .bounce-leave-active {
+            animation: bounce-in .5s reverse;
+        }
+
+        @keyframes bounce-in {
+            0% {
+                transform: translateX(100px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateX(0px);
+                opacity: 1;
+            }
+        }
+    </style>
+    <script type="text/javascript" src="../vue.js"></script>
+</head>
+<body>
+<div id="box">
+    <keep-alive>
+        <transition name="bounce" mode="out-in">
+            <component :is="who"></component>
+        </transition>
+    </keep-alive>
+    <footer>
+        <ul>
+            <li><a id="home" @click="componentAction">首頁</a></li>
+            <li><a id="list" @click="componentAction">列表頁</a></li>
+            <li><a id="shopcar" @click="componentAction">購物車</a></li>
+        </ul>
+    </footer>
+</div>
+<script type="text/javascript">
+    const vm = new Vue({
+        el: '#box',
+        data: {
+            'who': 'home'
+        },
+        components: {
+            'home': {
+                template: `<div>home <input type="text"></div>`,
+            },
+            'list': {
+                template: `<div>list</div>`,
+            },
+            'shopcar': {
+                template: `<div>shopcar</div>`,
+            },
+        },
+        methods: {
+            componentAction(event) {
+                // console.log(event, event.target.id)
+                console.log(this.who)
+                this.who = event.target.id
+            }
+        }
+    })
+</script>
+</body>
+</html>
