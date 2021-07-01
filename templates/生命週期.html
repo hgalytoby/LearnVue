@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="box">
+    <child v-if="isCreate"></child>
+    <button @click="isCreate = !isCreate">create</button>
+</div>
+<script type="text/javascript">
+    Vue.component('child', {
+        template: `<div id="aa">
+                child -- {{ title }}
+                <button @click="title='111'">click111</button>
+                <button @click="title='222'">click222</button>
+            </div>`,
+        data() {
+            return {
+                'title': '000',
+                'datalist': [],
+                'count': 0,
+            }
+        },
+        methods: {},
+        beforeCreate() {
+            console.log('beforeCreate')
+        },
+        created() {
+            console.log('created')
+        },
+        beforeMount() {
+            console.log('beforeMount')
+        },
+        mounted() {
+            const timer = setInterval(() => {
+                console.log('setInterval')
+                this.count++
+            }, 1000)
+            this.$once('hook:beforeDestroy', () => {
+                clearInterval(timer);
+            })
+            console.log('mounted', '訪問dom, setInterval, windows.onscroll, 監聽事件 ajax')
+        },
+
+        beforeUpdate() {
+            console.log('beforeUpdate', this)
+        },
+        updated() {
+            console.log('updated', '更新之後可以訪問 dom', this)
+        },
+        beforeDestroy() {
+
+            console.log('beforeDestroy - clearInterval, windows.onscroll=null, $off')
+        },
+        destroyed() {
+
+            console.log('destroyed - clearInterval, windows.onscroll=null, $off')
+        },
+    })
+    const vm = new Vue({
+        el: '#box',
+        data: {
+            'isCreate': true
+        },
+    })
+</script>
+</body>
+</html>

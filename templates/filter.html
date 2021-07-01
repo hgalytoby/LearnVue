@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="box">
+    <ul>
+        <li v-for="data in datalist" :key="data['id']">
+            <h3>{{ data['nm'] }}</h3>
+            <img :src="changePath(data['img'])" alt="">
+            <img :src="data['img'] | kerwinpathFunction" alt="">
+            <img :src="data['img'] | kerwinpath" alt="">
+        </li>
+    </ul>
+</div>
+<script type="text/javascript">
+    Vue.filter('kerwinpathFunction', function (data) {
+        return data.replace('w.h', '128.180')
+    })
+    Vue.filter('kerwinpath', (data) => {
+        return data.replace('w.h', '128.180')
+    })
+    new Vue({
+        el: '#box',
+        data: {
+            'datalist': []
+        },
+        mounted() {
+            axios.get('./json/filter_test.json').then(res => {
+                console.log(res.data)
+                this.datalist = res.data['movieList']
+            })
+        },
+        methods: {
+            changePath(path) {
+                return path.replace('w.h', '128.180')
+            }
+        }
+    })
+</script>
+</body>
+</html>

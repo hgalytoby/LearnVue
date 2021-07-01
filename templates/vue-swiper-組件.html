@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+    <link rel="stylesheet" href="../static/css/swiper.css">
+    <script src="../static/js/swiper.js"></script>
+    <style>
+        .swiper-container {
+            width: 600px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <swiper :key="datalist.length">
+        <div class="swiper-slide" v-for="data in datalist">
+            {{ data }}
+        </div>
+    </swiper>
+
+</div>
+<script type="text/javascript">
+    Vue.component('swiper', {
+        template: `
+        <div class="swiper-container a">
+            <div class="swiper-wrapper">
+                <slot></slot>
+             </div>
+            <div class="swiper-pagination"></div>
+        </div>`,
+        mounted() {
+            console.log('swiper-mounted')
+            new Swiper('.a', {
+                // direction: 'vertical'
+                loop: true,
+                // 如果需要分页器
+                pagination: {
+                    el: '.swiper-pagination',
+                }
+            })
+        },
+    })
+
+    const vm = new Vue({
+        el: '#box',
+        data: {
+            'datalist': [],
+        },
+        mounted() {
+            console.log('root-mounted')
+            setTimeout(() => {
+                this.datalist = [111, 222, 333] // 狀態改完, 異步更新 dom
+                console.log(document.querySelectorAll('.swiper-slide').length)
+
+                // Swiper 過早問題
+            }, 2000)
+        },
+    })
+</script>
+</body>
+</html>
