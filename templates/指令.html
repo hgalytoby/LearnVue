@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="box">
+    <div v-hello="'red'">11111</div>
+    <div v-hello="'yellow'">11111</div>
+    <div v-hello="mycolor">11111</div>
+</div>
+<script type="text/javascript">
+    Vue.directive('hello', {
+        inserted(el, bind) {
+            // 指令的生命週期
+            // console.log('當前節點插入到父節點了')
+            console.log(bind)
+            el.style.background = bind.value
+        },
+        update(el, bind) {
+            el.style.background = bind.value
+        }
+    })
+    const vm = new Vue({
+        el: '#box',
+        data: {
+            'mycolor': 'red'
+        },
+    })
+</script>
+</body>
+</html>

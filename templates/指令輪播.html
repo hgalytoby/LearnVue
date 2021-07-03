@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+    <link rel="stylesheet" href="../static/css/swiper.css">
+    <script src="../static/js/swiper.js"></script>
+    <style>
+        .swiper-container {
+            width: 600px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <div class="swiper-container a">
+        <div class="swiper-wrapper" :key="list.length">
+            <div class="swiper-slide" v-for="(data, index) in list" v-swipe="{
+                'index': index,
+                'length': list.length
+            }">
+                {{ data }}
+            </div>
+        </div>
+        <!-- 如果需要分頁器 -->
+        <div class="swiper-pagination"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    Vue.directive('swipe', {
+        inserted(el, bind) {
+            console.log(el, bind.value['length'])
+            if (bind.value['index'] === bind.value['length'] - 1) {
+                new Swiper('.a', {
+                    // direction: 'vertical',
+                    loop: true,
+                    //如果需要分页器
+                    pagination: {
+                        el: '.swiper-pagination',
+                    }
+                })
+            }
+        }
+    })
+    const vm = new Vue({
+        el: '#box',
+        data: {
+            'list': []
+        },
+        mounted() {
+            setTimeout(() => {
+                this.list = ['111', '222', '333']
+            }, 2000)
+        }
+    })
+</script>
+</body>
+</html>
