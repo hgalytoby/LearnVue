@@ -15,8 +15,8 @@
 </head>
 <body>
 <div id="box">
-    <div class="swiper-container a">
-        <div class="swiper-wrapper" :key="list.length">
+    <div class="swiper-container a" :key="list.length">
+        <div class="swiper-wrapper">
             <div class="swiper-slide" v-for="(data, index) in list" v-swipe="{
                 'index': index,
                 'length': list.length
@@ -33,6 +33,7 @@
         inserted(el, bind) {
             console.log(el, bind.value['length'])
             if (bind.value['index'] === bind.value['length'] - 1) {
+                console.log('create Swiper')
                 new Swiper('.a', {
                     // direction: 'vertical',
                     loop: true,
