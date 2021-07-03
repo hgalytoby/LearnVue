@@ -1,6 +1,7 @@
 <template>
   <div>
     hello vue
+    <router-view></router-view>
   </div>
   <input type="text" ref="mytext">
   <button @click="handleAdd">add</button>
@@ -17,29 +18,35 @@
 </template>
 
 <script>
-  import navbar from './components/Navbar'
-  import sidebar from './components/Sidebar'
+import navbar from './components/Navbar'
+import sidebar from './components/Sidebar'
+import axios from 'axios'
 
-  export default {
-    data() {
-      return {
-        datalist: [],
-        isShow: false
-      }
-    },
-    methods: {
-      handleAdd() {
-        this.datalist.push(this.$refs.mytext.value)
-      },
-      handleClick() {
-        this.isShow = !this.isShow
-      }
-    },
-    components: {
-      sidebar,
-      navbar
+export default {
+  data () {
+    return {
+      datalist: [],
+      isShow: false
     }
+  },
+  methods: {
+    handleAdd () {
+      this.datalist.push(this.$refs.mytext.value)
+    },
+    handleClick () {
+      this.isShow = !this.isShow
+    }
+  },
+  mounted () {
+    axios.get('/ajax/movieOnInfoList?toekn').then(res => {
+      console.log(res.data)
+    })
+  },
+  components: {
+    sidebar,
+    navbar
   }
+}
 </script>
 
 <style lang="scss">
