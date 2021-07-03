@@ -1,1 +1,5 @@
 .idea
+./myapp/node_modules
+./myapp/.idea
+./基礎學習/.idea
+./基礎學習/test.py
