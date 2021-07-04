@@ -1,6 +1,7 @@
 <template>
   <div>
     hello vue
+    <tabbar></tabbar>
     <router-view></router-view>
   </div>
   <input type="text" ref="mytext">
@@ -20,6 +21,7 @@
 <script>
 import navbar from './components/Navbar'
 import sidebar from './components/Sidebar'
+import tabbar from './components/Tabbar'
 import axios from 'axios'
 
 export default {
@@ -44,15 +46,16 @@ export default {
   },
   components: {
     sidebar,
-    navbar
+    navbar,
+    tabbar
   }
 }
 </script>
 
 <style lang="scss">
-  ul {
-    li {
-      background: yellow;
-    }
-  }
+  /*ul {*/
+  /*  li {*/
+  /*    background: yellow;*/
+  /*  }*/
+  /*}*/
 </style>

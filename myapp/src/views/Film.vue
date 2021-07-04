@@ -1,5 +1,9 @@
 <template>
-  <div>Film</div>
+  <div>
+    <div>輪播</div>
+    <div>Film-header</div>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
