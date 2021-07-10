@@ -1,6 +1,6 @@
 const auth = {
   isLogin () {
-    return false
+    return true
   }
 }
 // function auth() {

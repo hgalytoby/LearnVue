@@ -48,7 +48,8 @@ const routes = [
   {
     path: '/detail/:id',
     name: 'detailId',
-    component: Detail
+    component: Detail,
+    props: true
   },
   {
     path: '/login',
