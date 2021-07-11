@@ -2,11 +2,26 @@
   <div v-if="filminfo">
     <img :src="filminfo.poster" alt="" class="poster">
     <h2>{{ filminfo.name }}</h2>
+    <h3>演職人員</h3>
+    <detailSwiper perview="4" class="actor-swiper" myclassname="actor-swiper">
+      <div class="swiper-slide" v-for="actors in filminfo.actors" :key="actors.avatarAddress">
+        <img :src="actors.avatarAddress" alt="">
+        <p>{{actors.name}}</p>
+        <p>{{actors.role}}</p>
+      </div>
+    </detailSwiper>
+    <h3>劇照</h3>
+    <detailSwiper perview="3" class="photo-swiper" myclassname="photo-swiper">
+      <div class="swiper-slide" v-for="(photos, index) in filminfo.photos" :key="index">
+        <img :src="photos" alt="">
+      </div>
+    </detailSwiper>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import detailSwiper from '@/views/Detail/DetailSwiper'
 export default {
   name: 'Detail',
   props: ['id'], // 從 router 那邊來的
@@ -27,8 +42,11 @@ export default {
       }
     }).then(res => {
       this.filminfo = res.data.data.film
-      console.log(this.filminfo.name)
+      console.log(this.filminfo)
     })
+  },
+  components: {
+    detailSwiper
   }
 }
 </script>

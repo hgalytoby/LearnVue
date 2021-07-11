@@ -13,6 +13,7 @@
       <router-link to="/cinema" custom
                    v-slot="{ href, navigate, isActive }">
         <li :class="{ myActive: isActive }">
+          <i class="iconfont icon-video"></i>
           <a :href="href" @click="navigate">
             cinema
           </a>
@@ -21,6 +22,7 @@
       <router-link to="/center" custom
                    v-slot="{ href, navigate, isActive }">
         <li :class="{ myActive: isActive }">
+          <i class="iconfont icon-account"></i>
           <a :href="href" @click="navigate">
             center
           </a>
