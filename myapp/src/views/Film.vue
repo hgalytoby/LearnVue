@@ -42,7 +42,6 @@ export default {
         { imgUrl: 'https://pic.maizuo.com/usr/movie/cc85ae3d57256cab1513c15f626a4ffb.jpg', bannerId: '4' }
       ]
     })
-    console.log('in mon')
     window.onscroll = this.handleScroll
   },
   beforeUnmount () {

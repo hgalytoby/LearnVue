@@ -22,6 +22,8 @@
 <script>
 import axios from 'axios'
 import detailSwiper from '@/views/Detail/DetailSwiper'
+import bus from '@/bus/index'
+
 export default {
   name: 'Detail',
   props: ['id'], // 從 router 那邊來的
@@ -29,6 +31,10 @@ export default {
     return {
       filminfo: null
     }
+  },
+  beforeMount () {
+    // console.log('hidetabbar')
+    bus.emit('maizuo', false)
   },
   mounted () {
     // console.log(`route: ${JSON.stringify(this.$route)}`)
@@ -44,6 +50,10 @@ export default {
       this.filminfo = res.data.data.film
       console.log(this.filminfo)
     })
+  },
+  beforeUnmount () {
+    // console.log('showtabbar')
+    bus.emit('maizuo', true)
   },
   components: {
     detailSwiper

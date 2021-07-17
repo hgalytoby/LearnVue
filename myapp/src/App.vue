@@ -1,7 +1,9 @@
 <template>
   <div>
-    <tabbar></tabbar>
-    <router-view></router-view>
+    <tabbar v-if="tabbarIsShow"></tabbar>
+    <section>
+      <router-view></router-view>
+    </section>
   </div>
 <!--  <input type="text" ref="mytext">-->
 <!--  <button @click="handleAdd">add</button>-->
@@ -22,12 +24,14 @@
 // import sidebar from './components/Sidebar'
 import tabbar from './components/Tabbar'
 import axios from 'axios'
+import bus from '@/bus/index'
 
 export default {
   data () {
     return {
       datalist: [],
-      isShow: false
+      isShow: false,
+      tabbarIsShow: true
     }
   },
   methods: {
@@ -38,7 +42,13 @@ export default {
       this.isShow = !this.isShow
     }
   },
+  beforeMount () {
+    bus.on('maizuo', (data) => {
+      this.tabbarIsShow = data
+    })
+  },
   mounted () {
+    // this.$refs.tabbar.$refs.tabbar.clientHeight
     axios.get('/ajax/movieOnInfoList?toekn').then(res => {
       console.log(res.data)
     })
