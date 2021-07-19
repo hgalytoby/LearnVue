@@ -22,7 +22,7 @@
 <script>
 import axios from 'axios'
 import detailSwiper from '@/views/Detail/DetailSwiper'
-import bus from '@/bus/index'
+// import bus from '@/bus/index'
 
 export default {
   name: 'Detail',
@@ -34,7 +34,9 @@ export default {
   },
   beforeMount () {
     // console.log('hidetabbar')
-    bus.emit('maizuo', false)
+    // bus.emit('maizuo', false)
+    // this.$store.state.isTabbarShow = false
+    this.$store.commit('HideMaizuoTabbar', false)
   },
   mounted () {
     // console.log(`route: ${JSON.stringify(this.$route)}`)
@@ -53,7 +55,9 @@ export default {
   },
   beforeUnmount () {
     // console.log('showtabbar')
-    bus.emit('maizuo', true)
+    // bus.emit('maizuo', true)
+    // this.$store.state.isTabbarShow = true
+    this.$store.commit('HideMaizuoTabbar', true)
   },
   components: {
     detailSwiper

@@ -3,7 +3,8 @@
   <ul>
     <li v-for="data in datalist" :key="data.filmId" @click="handleChangePage(data)">
       <img :src="data.poster" alt="">
-      <h3>評分{{data.name}}</h3>
+      <h3>{{data.name}}</h3>
+      <p>評分{{data.grade}}</p>
       <p>主演{{actorsFunc(data.actors)}}</p>
       <p>星數{{data.grade}}</p>
     </li>

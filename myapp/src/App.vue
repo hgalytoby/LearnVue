@@ -1,6 +1,6 @@
 <template>
   <div>
-    <tabbar v-if="tabbarIsShow"></tabbar>
+    <tabbar v-show="$store.state.isTabbarShow"></tabbar>
     <section>
       <router-view></router-view>
     </section>
@@ -24,14 +24,14 @@
 // import sidebar from './components/Sidebar'
 import tabbar from './components/Tabbar'
 import axios from 'axios'
-import bus from '@/bus/index'
+// import bus from '@/bus/index'
 
 export default {
   data () {
     return {
       datalist: [],
-      isShow: false,
-      tabbarIsShow: true
+      isShow: false
+      // tabbarIsShow: true
     }
   },
   methods: {
@@ -43,9 +43,9 @@ export default {
     }
   },
   beforeMount () {
-    bus.on('maizuo', (data) => {
-      this.tabbarIsShow = data
-    })
+    // bus.on('maizuo', (data) => {
+    //   this.tabbarIsShow = data
+    // })
   },
   mounted () {
     // this.$refs.tabbar.$refs.tabbar.clientHeight
