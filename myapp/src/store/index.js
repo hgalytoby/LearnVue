@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
+import { HIDE_TABBAR_MUTATION } from '@/type/index'
 
 export const store = createStore({
   state () {
@@ -8,8 +9,13 @@ export const store = createStore({
       comingList: []
     }
   },
+  getters: {
+    comingListGetter (state) {
+      return state.comingList.filter((item, index) => index < 3)
+    }
+  },
   mutations: {
-    HideMaizuoTabbar (state, data) {
+    [HIDE_TABBAR_MUTATION] (state, data) {
       state.isTabbarShow = data
     },
     comingListMutation (state, data) {

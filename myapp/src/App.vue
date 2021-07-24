@@ -1,6 +1,6 @@
 <template>
   <div>
-    <tabbar v-show="$store.state.isTabbarShow"></tabbar>
+    <tabbar v-show="isTabbarShow"></tabbar>
     <section>
       <router-view></router-view>
     </section>
@@ -24,6 +24,7 @@
 // import sidebar from './components/Sidebar'
 import tabbar from './components/Tabbar'
 import axios from 'axios'
+import { mapState } from 'vuex'
 // import bus from '@/bus/index'
 
 export default {
@@ -41,6 +42,14 @@ export default {
     handleClick () {
       this.isShow = !this.isShow
     }
+  },
+  // computed: {
+  //   isTabbarShow () {
+  //     return this.$store.state.isTabbarShow
+  //   }
+  // },
+  computed: {
+    ...mapState(['isTabbarShow']) // ES6 展開合併運算符
   },
   beforeMount () {
     // bus.on('maizuo', (data) => {

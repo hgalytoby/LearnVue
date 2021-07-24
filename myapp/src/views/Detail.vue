@@ -22,6 +22,7 @@
 <script>
 import axios from 'axios'
 import detailSwiper from '@/views/Detail/DetailSwiper'
+import { HIDE_TABBAR_MUTATION } from '@/type/index'
 // import bus from '@/bus/index'
 
 export default {
@@ -36,7 +37,7 @@ export default {
     // console.log('hidetabbar')
     // bus.emit('maizuo', false)
     // this.$store.state.isTabbarShow = false
-    this.$store.commit('HideMaizuoTabbar', false)
+    this.$store.commit(HIDE_TABBAR_MUTATION, false)
   },
   mounted () {
     // console.log(`route: ${JSON.stringify(this.$route)}`)
@@ -57,7 +58,7 @@ export default {
     // console.log('showtabbar')
     // bus.emit('maizuo', true)
     // this.$store.state.isTabbarShow = true
-    this.$store.commit('HideMaizuoTabbar', true)
+    this.$store.commit(HIDE_TABBAR_MUTATION, true)
   },
   components: {
     detailSwiper
