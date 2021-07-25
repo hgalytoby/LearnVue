@@ -19,7 +19,7 @@
     <el-button type="text" @click="openMessage">點擊 Message Box</el-button>
     <el-button type="text" @click="confirmMessage">送出 Message Box</el-button>
   </el-row>
-      <el-carousel :interval="4000" type="card" height="200px">
+      <el-carousel :interval="2000" type="card" height="200px" autoplay="">
       <el-carousel-item v-for="item in 6" :key="item">
         <h3 class="medium">{{ item }}</h3>
       </el-carousel-item>
@@ -125,5 +125,11 @@ export default {
 }
 .el-carousel__item:nth-child(2n+1) {
   background-color: #d3dce6;
+}
+button.el-carousel__button{
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  background: red !important;
 }
 </style>

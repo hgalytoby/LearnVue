@@ -15,6 +15,7 @@
 import swiper from '@/views/Film/Swiper'
 import filmheader from '@/views/Film/Filmheader'
 import axios from 'axios'
+import { ElLoading } from 'element-plus'
 
 export default {
   name: 'Film',
@@ -25,6 +26,10 @@ export default {
     }
   },
   mounted () {
+    const loadingInstance = ElLoading.service({
+      fullscreen: true,
+      text: '加載中'
+    })
     axios({
       url: 'https://m.maizuo.com/gateway?cityId=440300&type=2&k=3806358',
       headers: {
@@ -41,6 +46,11 @@ export default {
         { imgUrl: 'https://pic.maizuo.com/usr/movie/5baa9db832da43e91b0bf2056f7d5428.jpg', bannerId: '4' },
         { imgUrl: 'https://pic.maizuo.com/usr/movie/cc85ae3d57256cab1513c15f626a4ffb.jpg', bannerId: '4' }
       ]
+      // while (true) {
+      //   console.log()
+      // }
+      // eslint-disable-next-line no-unreachable
+      loadingInstance.close()
     })
     window.onscroll = this.handleScroll
   },
@@ -52,9 +62,7 @@ export default {
       // console.log(document.documentElement.scrollTop, this.$refs.mySwiper.$el.offsetHeight)
       if (document.documentElement.scrollTop >= this.$refs.mySwiper.$el.offsetHeight) {
         this.isFixed = true
-        console.log('fixed')
       } else {
-        console.log('unfixed')
         this.isFixed = false
       }
     }
