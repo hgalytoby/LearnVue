@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- 資料代理：通過一個對象代理對另一個對像中屬性的操作 (讀 / 寫) -->
+<script type="text/javascript">
+    let obj = {
+        x: 100
+    }
+    let obj2 = {
+        y: 200
+    }
+
+    Object.defineProperty(obj2, 'x', {
+        get() {
+            return obj.x
+        },
+        set(value) {
+            obj.x = value
+        }
+    })
+</script>
+</body>
+</html>

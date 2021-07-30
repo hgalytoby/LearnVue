@@ -14,7 +14,6 @@
     <a v-bind:href="school.url.toUpperCase()" x="'hello">Go! {{ school.name }}</a>
     <a :href="school.url" :x="hello">Go! {{ school.name }}</a>
 </div>
-</body>
 <script type="text/javascript">
     Vue.config.productionTip = false // 關閉 vue 啟動時的生產提示。
     const x = new Vue({
@@ -29,4 +28,5 @@
         },
     })
 </script>
+</body>
 </html>
