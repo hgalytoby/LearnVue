@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <style>
+        * {
+            margin-top: 20px;
+        }
+
+        .demo1 {
+            height: 50px;
+            background-color: skyblue;
+        }
+
+        .box1 {
+            padding: 5px;
+            background-color: skyblue;
+        }
+
+        .box2 {
+            padding: 5px;
+            background-color: orange;
+        }
+
+        .list {
+            width: 200px;
+            height: 200px;
+            background-color: peru;
+            overflow: auto;
+        }
+
+        li {
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+<!--
+    Vue中的事件修飾符：
+        前三個用的居多，後三個當作擴展了解
+        1.prevent： 阻止默認事件(常用)
+        2.stop： 阻止事件冒泡(常用)
+        3.once： 事件只觸發一次(常用)
+        4.capture： 使用事件的捕獲模式
+        5.self： 只有 event.target 是當前操作的元素時才觸發事件
+        6.passive： 事件的默認行為立即執行，無需等待事件回調執行完畢
+-->
+<div id="root">
+    <h2>歡迎{{name}}學習</h2>
+    <!-- 阻止默認事件(常用) -->
+    <a href="https://www.google.com" @click.prevent="showInfo">點我提示訊息</a>
+    <!-- 阻止事件冒泡(常用) -->
+    <div class="demo1" @click="showInfo">
+        <button @click.stop="showInfo">點我提示訊息</button>
+        <!-- 修飾符可以連續寫 -->
+        <a href="https://www.google.com" @click.prevent.stop="showInfo">點我提示訊息</a>
+    </div>
+
+    <!-- 事件只觸發一次(常用) -->
+    <button @click.once="showInfo">點我提示訊息</button>
+
+    <!-- 使用事件的捕獲模式 -->
+    <div class="box1" @click.capture="showMsg(1)">
+        div1
+        <div class="box2" @click="showMsg(2)">
+            div2
+        </div>
+    </div>
+
+    <!-- 只有 event.target 是當前操作的元素時才觸發事件 -->
+    <div class="demo1" @click.self="showInfo">
+        <button @click="showInfo">點我提示訊息</button>
+    </div>
+
+    <!-- 事件的默認行為立即執行，無需等待事件回調執行完畢 -->
+    <!--  這是 scroll 滾動條的滾動  -->
+    <!--    <ul @scroll="demo" class="list">-->
+    <!--  這個是滑鼠的滾輪上下滾動會觸發，會等方法內的的程式執行完才動滾動條  -->
+    <!--    <ul @wheel="demo" class="list">-->
+        <!--  這個是滑鼠的滾輪上下滾動會觸發，會先執行滾動條  -->
+    <ul @wheel.passive="demo" class="list">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+    </ul>
+</div>
+</body>
+
+<script type="text/javascript">
+    Vue.config.productionTip = false // 阻止 vue 在啟動時生成生產提示。
+    const vm = new Vue({
+        el: '#root',
+        data: {
+            name: 'dudulu',
+        },
+        methods: {
+            showInfo(event) {
+                // event.preventDefault()
+                // console.log(this) // this 是 vm
+                alert('你好r!')
+            },
+            showMsg(msg) {
+                console.log(msg)
+            },
+            demo() {
+                for (let i = 0; i < 5000; i++) {
+                    console.log('#')
+                }
+                console.log('累了')
+            }
+        }
+    })
+</script>
+</html>
