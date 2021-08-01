@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+    姓 <input type="text" v-model="firstName"> <br>
+    名 <input type="text" v-model="lastName"> <br>
+    <!--  看控制台，用 methods 寫幾次就會掉用幾次  -->
+    <span>姓名: {{ fullName() }}</span>
+    <span>姓名: {{ fullName() }}</span>
+    <span>姓名: {{ fullName() }}</span>
+    <span>姓名: {{ fullName() }}</span>
+</div>
+</body>
+
+<script type="text/javascript">
+    Vue.config.productionTip = false // 阻止 vue 在啟動時生成生產提示。
+    new Vue({
+        el: '#root',
+        data: {
+            firstName: 'lee',
+            lastName: 'dudulu',
+        },
+        methods: {
+            fullName() {
+                console.log('hello -- fullName')
+                return `${this.firstName} - ${this.lastName}`
+            }
+        }
+    })
+</script>
+</html>

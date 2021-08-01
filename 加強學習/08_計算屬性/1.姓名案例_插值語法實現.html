@@ -7,6 +7,9 @@
 </head>
 <body>
 <div id="root">
+    姓 <input type="text" v-model="firstName"> <br>
+    名 <input type="text" v-model="lastName"> <br>
+    <span>姓名: {{ firstName }}-{{ lastName }}</span>
 </div>
 </body>
 
@@ -15,7 +18,8 @@
     new Vue({
         el: '#root',
         data: {
-
+            firstName: 'lee',
+            lastName: 'dudulu',
         },
     })
 </script>
