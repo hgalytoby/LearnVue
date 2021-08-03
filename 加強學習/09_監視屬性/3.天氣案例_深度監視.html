@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+<!--
+    深度監視：
+        (1).Vue 中的觀察默認不對象內部值的改變(一層)。
+        (2).配置深度: 真實可以監測對象內部值改變(第三)。
+    備註：
+        (1).Vue 自身可以監測對象內部值的改變，但 Vue 提供的觀察默認不可以!
+        (2).使用觀察時根據資料的具體結構，決定是否採用深度監視。
+-->
+
+<div id="root">
+    <h2>今天天氣很{{ info }}</h2>
+    <button @click="changeWeather">切換天氣</button>
+    <hr/>
+    <h3>a 的值是: {{ numbers.a }}</h3>
+    <button @click="numbers.a++">點擊讓 a+1</button>
+    <h3>b 的值是: {{ numbers.b }}</h3>
+    <button @click="numbers.b++">點擊讓 b+1</button>
+    <button @click="numbers = {a:666, b:888, c: {d: {e: 777}}}">重新定義 numbers</button>
+    {{ numbers.c.d.e }}
+</div>
+
+</body>
+
+<script type="text/javascript">
+    Vue.config.productionTip = false // 阻止 vue 在啟動時生成生產提示。
+    const vm = new Vue({
+        el: '#root',
+        data: {
+            isHot: true,
+            numbers: {
+                a: 1,
+                b: 1,
+                c: {
+                    d: {
+                        e: 100
+                    }
+                }
+            }
+        },
+        computed: {
+            info() {
+                return this.isHot ? '炎熱' : '涼爽'
+            }
+        },
+        methods: {
+            changeWeather() {
+                return this.isHot = !this.isHot
+            }
+        },
+        watch: {
+            isHot: {
+                immediate: true, // 初始化時讓 handler 調用一下
+                // handler 什麼時候調用？當 isHot 發生改變時。
+                handler(newValue, oldValue) {
+                    console.log('修改 isHot 了!', newValue, oldValue)
+                },
+                // 監視多級結構中某個屬性的變化
+                // 'numbers.a':{
+                // 	handler(){
+                // 		console.log('a 改變了')
+                // 	}
+                // },
+                // 監視多級結構中所有屬性的變化
+            },
+            numbers: {
+                deep: true,
+                handler() {
+                    console.log('numbers 改變了')
+                }
+            }
+        }
+    })
+
+</script>
+</html>
