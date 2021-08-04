@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+<!--
+    computed和watch之間的區別：
+        1.computed 能完成的功能，watch 都可以完成。
+        2.watch 能完成的功能，computed 不一定能完成，例如: watch 可以進行異步操作。
+    兩個重要的小原則：
+        1.被 Vue 管理的函數，最好寫成普通函數，這樣 this 的指向才是 vm 或 組件實例對象。
+        2.所有不被 Vue 所管理的函數(定時器的回調函數、ajax的回調函數等、Promise 的回調函數)，最好寫成箭頭函數，這樣 this 的指向才是 vm 或 組件實例對象。
+-->
+<div id="root">
+    姓名: <input type="text" v-model="firstName"><br>
+    名稱: <input type="text" v-model="lastName"><br>
+    <!--  與 methods 有緩存機制  -->
+    全名：<span>{{ fullName }}</span><br>
+    全名：<span>{{ fullName }}</span><br>
+    全名：<span>{{ fullName }}</span><br>
+
+</div>
+</body>
+
+<script type="text/javascript">
+    Vue.config.productionTip = false // 阻止 vue 在啟動時生成生產提示。
+    const vm = new Vue({
+        el: '#root',
+        data: {
+            firstName: 'lee',
+            lastName: 'dudulu',
+            fullName: `lee-dudulu `
+        },
+        computed: {},
+        watch: {
+            firstName(val) {
+                console.log('firstName')
+                console.log(`this: ${this}`)
+                setTimeout(() => {
+                    this.fullName = `${val}-${this.lastName}`
+                }, 1000)
+
+            },
+            lastName(val) {
+                console.log('lastName')
+                this.fullName = `${this.firstName}-${val}`
+            }
+        }
+    })
+</script>
+</html>
