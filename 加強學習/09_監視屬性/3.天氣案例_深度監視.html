@@ -63,13 +63,13 @@
                     console.log('修改 isHot 了!', newValue, oldValue)
                 },
                 // 監視多級結構中某個屬性的變化
-                // 'numbers.a':{
-                // 	handler(){
-                // 		console.log('a 改變了')
-                // 	}
-                // },
-                // 監視多級結構中所有屬性的變化
             },
+            // 'numbers.a': {
+            //     handler() {
+            //         console.log('a 改變了')
+            //     }
+            // },
+            // 監視多級結構中所有屬性的變化
             numbers: {
                 deep: true,
                 handler() {
