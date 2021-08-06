@@ -7,12 +7,12 @@
 </head>
 <body>
 <!--
-    computed和watch之間的區別：
+    computed和 watch 之間的區別：
         1.computed 能完成的功能，watch 都可以完成。
         2.watch 能完成的功能，computed 不一定能完成，例如: watch 可以進行異步操作。
     兩個重要的小原則：
         1.被 Vue 管理的函數，最好寫成普通函數，這樣 this 的指向才是 vm 或 組件實例對象。
-        2.所有不被 Vue 所管理的函數(定時器的回調函數、ajax的回調函數等、Promise 的回調函數)，最好寫成箭頭函數，這樣 this 的指向才是 vm 或 組件實例對象。
+        2.所有不被 Vue 所管理的函數(定時器的回調函數、ajax 的回調函數等、Promise 的回調函數)，最好寫成箭頭函數，這樣 this 的指向才是 vm 或 組件實例對象。
 -->
 <div id="root">
     姓名: <input type="text" v-model="firstName"><br>

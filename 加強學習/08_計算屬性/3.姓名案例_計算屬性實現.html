@@ -11,18 +11,18 @@
         1.定義: 需要的屬性不存在，要通過已有的屬性計算得來。
         2.原理: 可以藉助 Objcet.defineproperty 提供的 getter 和 setter。
         3.get 函數什麼時候執行？
-    (1).首次讀取時會執行一次。
-    (2).當依賴的數據發生改變時會被再次調用。
         4.優勢：與方法實現虛擬，內部有檢查機制(功能)，放大，精細方便。
         5.注意事項：
             1.計算屬性最終會在 vm 上，直接讀取使用方法。
             2.如果計算屬性要被修改，那必須寫設置函數去響應修改，並且設置中要計算時依賴的數據發生改變。
+    (1).首次讀取時會執行一次。
+    (2).當依賴的數據發生改變時會被再次調用。
 -->
 <div id="root">
     姓名: <input type="text" v-model="firstName"><br>
     名稱: <input type="text" v-model="lastName"><br>
     測試: <input type="text" v-model="x"><br>
-    <!--  與 methods 有緩存機制  -->
+    <!--  與 methods 相比有緩存機制  -->
     全名：<span>{{ fullName }}</span><br>
     全名：<span>{{ fullName }}</span><br>
     全名：<span>{{ fullName }}</span><br>

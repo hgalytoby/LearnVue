@@ -48,7 +48,7 @@
         6.passive： 事件的默認行為立即執行，無需等待事件回調執行完畢
 -->
 <div id="root">
-    <h2>歡迎{{name}}學習</h2>
+    <h2>歡迎{{ name }}學習</h2>
     <!-- 阻止默認事件(常用) -->
     <a href="https://www.google.com" @click.prevent="showInfo">點我提示訊息</a>
     <!-- 阻止事件冒泡(常用) -->
@@ -79,7 +79,7 @@
     <!--    <ul @scroll="demo" class="list">-->
     <!--  這個是滑鼠的滾輪上下滾動會觸發，會等方法內的的程式執行完才動滾動條  -->
     <!--    <ul @wheel="demo" class="list">-->
-        <!--  這個是滑鼠的滾輪上下滾動會觸發，會先執行滾動條  -->
+    <!--  這個是滑鼠的滾輪上下滾動會觸發，會先執行滾動條  -->
     <ul @wheel.passive="demo" class="list">
         <li>1</li>
         <li>2</li>

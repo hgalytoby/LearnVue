@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+<!--
+    v-for 指令：
+        1.用於展示列表資料
+        2.語法: v-for="(item, index) in xxx" :key="yyy"
+        3.可遍歷: 陣列、對象、字符串(用的很少)、指定的次數(用的很少)
+-->
+<div id="root">
+    <!-- 遍歷陣列 -->
+    <h2>人員列表 (遍歷陣列)</h2>
+    <ul>
+        <li v-for="(p, index) of persons" :key="index">
+            {{ p.name }} - {{ p.age }}
+        </li>
+    </ul>
+
+    <!-- 遍歷對象 -->
+    <h2>汽車訊息 (遍歷對象)</h2>
+    <ul>
+        <li v-for="(value, k) of car" :key="k">
+            {{ k }} - {{ value }}
+        </li>
+    </ul>
+
+    <!-- 遍歷字符串 -->
+    <h2>測試遍歷字符串(用得少)</h2>
+    <ul>
+        <li v-for="(char, index) of str" :key="index">
+            {{ char }} - {{ index }}
+        </li>
+    </ul>
+
+    <!-- 遍歷指定次數 -->
+    <h2>測試遍歷指定次數(用得少)</h2>
+    <ul>
+        <li v-for="(number, index) of 5" :key="index">
+            {{ number }} - {{ index }}
+        </li>
+    </ul>
+</div>
+</body>
+
+<script type="text/javascript">
+    Vue.config.productionTip = false // 阻止 vue 在啟動時生成生產提示。
+    new Vue({
+        el: '#root',
+        data: {
+            persons: [
+                {
+                    id: 1,
+                    name: 'hello',
+                    age: 18
+                },
+                {
+                    id: 2,
+                    name: 'lee',
+                    age: 19
+                },
+                {
+                    id: 3,
+                    name: 'dudulu',
+                    age: 20
+                }
+            ],
+            car: {
+                name: 'AE86',
+                price: '100w',
+                color: '白色'
+            },
+            str: 'hello'
+        }
+    })
+</script>
+</html>
