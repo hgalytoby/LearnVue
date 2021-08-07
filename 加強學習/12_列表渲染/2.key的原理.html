@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+<!--
+    react、vue 中的 key 有什麼作用? (key 的內部原理)
+        1. 虛擬 DOM 中 key 的作用:
+            key 是虛擬 DOM 對象的標識，當資料發生變化時，Vue 會根據[新資料]生成[新的虛擬DOM],
+            隨後 Vue 進行[新虛擬 DOM]與[舊虛擬 DOM]的差異比較，比較規則如下:
+        2.對比規則:
+            (1).舊虛擬 DOM 中找到了與新虛擬 DOM 相同的 key:
+                ①.若虛擬 DOM 中內容沒變, 直接使用之前的真實 DOM！
+                ②.若虛擬 DOM 中內容變了, 則生成新的真實 DOM，隨後替換掉頁面中之前的真實 DOM。
+
+            (2).舊虛擬 DOM 中未找到與新虛擬 DOM 相同的 key
+                創建新的真實 DOM，隨後渲染到到頁面。
+        3. 用 index 作為 key 可能會引發的問題：
+            1. 若對資料進行: 逆序增加、逆序刪除等破壞順序操作:
+                會產生沒有必要的真實 DOM 更新 ==> 界面效果沒問題，但效率低。
+            2. 如果結構中還包含輸入類的 DOM:
+                會產生錯誤 DOM 更新 ==> 界面有問題。
+        4. 開發中如何選擇 key?:
+            1.最好使用每條資料的唯一標識作為 key, 比如 id、手機號、身份證號、學號等唯一值。
+            2.如果不存在對資料的逆序增加、逆序刪除等破壞順序操作，僅用於渲染列表用於展示，
+                使用 index 作為 key 是沒有問題的。
+-->
+<div id="root">
+    <!-- 沒有 key  -->
+    <h2>人員列表 (遍歷陣列)</h2>
+    <button @click.once="add(persons1)">增加一筆資料</button>
+    <ul>
+        <li v-for="(p, index) of persons1">
+            {{ p.name }} - {{ p.age }} <input type="text">
+        </li>
+    </ul>
+
+    <!-- 用 index 當 key  -->
+    <h2>人員列表 (遍歷陣列)</h2>
+    <button @click.once="add(persons2)">增加一筆資料</button>
+    <ul>
+        <li v-for="(p, index) of persons2" :key="index">
+            {{ p.name }} - {{ p.age }} <input type="text">
+        </li>
+    </ul>
+
+    <!-- 用 id 當 key  -->
+    <h2>人員列表 (遍歷陣列)</h2>
+    <button @click.once="add(persons3)">增加一筆資料</button>
+    <ul>
+        <li v-for="(p, index) of persons3" :key="p.id">
+            {{ p.name }} - {{ p.age }} <input type="text">
+        </li>
+    </ul>
+</div>
+</body>
+
+<script type="text/javascript">
+    Vue.config.productionTip = false // 阻止 vue 在啟動時生成生產提示。
+    new Vue({
+        el: '#root',
+        data: {
+            persons1: [
+                {
+                    id: 1,
+                    name: 'hello',
+                    age: 18
+                },
+                {
+                    id: 2,
+                    name: 'lee',
+                    age: 19
+                },
+                {
+                    id: 3,
+                    name: 'dudulu',
+                    age: 20
+                }
+            ],
+            persons2: [
+                {
+                    id: 1,
+                    name: 'hello',
+                    age: 18
+                },
+                {
+                    id: 2,
+                    name: 'lee',
+                    age: 19
+                },
+                {
+                    id: 3,
+                    name: 'dudulu',
+                    age: 20
+                }
+            ],
+            persons3: [
+                {
+                    id: 1,
+                    name: 'hello',
+                    age: 18
+                },
+                {
+                    id: 2,
+                    name: 'lee',
+                    age: 19
+                },
+                {
+                    id: 3,
+                    name: 'dudulu',
+                    age: 20
+                }
+            ],
+        },
+        methods: {
+            add(arr) {
+                const p = {id: '004', name: 'day', age: 21}
+                arr.unshift(p)
+            }
+        },
+    })
+</script>
+</html>

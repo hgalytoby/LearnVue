@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+<!--
+-->
+<div id="root">
+    <h2>人員列表1</h2>
+    <input type="text" placeholder="請輸入名字" v-model="keyWord1">
+    <ul>
+        <li v-for="(p, index) of filPerson1" :key="p.id">
+            {{ p.name }} - {{ p.age }} - {{ p.sex }}
+        </li>
+    </ul>
+    <h2>人員列表2</h2>
+    <input type="text" placeholder="請輸入名字" v-model="keyWord2">
+    <ul>
+        <li v-for="(p, index) of filPerson2" :key="p.id">
+            {{ p.name }} - {{ p.age }} - {{ p.sex }}
+        </li>
+    </ul>
+    <h2>人員列表3</h2>
+    <input type="text" placeholder="請輸入名字" v-model="keyWord3">
+    <ul>
+        <li v-for="(p, index) of filPerson3" :key="p.id">
+            {{ p.name }} - {{ p.age }} - {{ p.sex }}
+        </li>
+    </ul>
+    <h2>人員列表4</h2>
+    <input type="text" placeholder="請輸入名字" v-model="keyWord4">
+    <ul>
+        <li v-for="(p, index) of filPerson4()" :key="p.id">
+            {{ p.name }} - {{ p.age }} - {{ p.sex }}
+        </li>
+    </ul>
+
+</div>
+</body>
+
+<script type="text/javascript">
+    Vue.config.productionTip = false // 阻止 vue 在啟動時生成生產提示。
+    //#region
+    new Vue({
+        el: '#root',
+        data: {
+            keyWord1: '',
+            keyWord2: '',
+            keyWord3: '',
+            keyWord4: '',
+            persons: [
+                {id: 1, name: '北原春希', age: 22, sex: '男'},
+                {id: 2, name: '飯塚武也', age: 22, sex: '男'},
+                {id: 3, name: '早坂親志', age: 22, sex: '男'},
+                {id: 4, name: '冬馬和紗', age: 22, sex: '女'},
+                {id: 5, name: '冬馬曜子', age: 35, sex: '女'},
+                {id: 6, name: '小木曾雪菜', age: 22, sex: '女'},
+                {id: 7, name: '小木曾晉', age: 35, sex: '男'},
+                {id: 8, name: '小木曾秋菜', age: 35, sex: '女'},
+                {id: 9, name: '小木曾孝宏', age: 35, sex: '男'},
+                {id: 10, name: '杉浦小春', age: 18, sex: '女'},
+                {id: 11, name: '和泉千晶', age: 23, sex: '女'},
+                {id: 12, name: '風岡麻理', age: 27, sex: '女'},
+                {id: 13, name: '水澤依緒', age: 22, sex: '女'},
+            ],
+            filPerson1: [],
+            filPerson2: [],
+        },
+        watch: {
+            // 初始會是 []
+            keyWord1(val) {
+                this.filPerson1 = this.persons.filter((p) => {
+                    return p.name.indexOf(val) !== -1
+                })
+            },
+            // 初始化使用 immediate: true ，讓 filPerson2 不是空陣列。
+            keyWord2: {
+                immediate: true,
+                handler(val) {
+                    this.filPerson2 = this.persons.filter((p) => {
+                        return p.name.indexOf(val) !== -1
+                    })
+                },
+            }
+        },
+        computed: {
+            filPerson3() {
+                console.log('computed')
+                return this.persons.filter((p) => {
+                    return p.name.indexOf(this.keyWord3) !== -1
+                })
+            }
+        },
+        methods:{
+            filPerson4() {
+                console.log('methods')
+                return this.persons.filter((p) => {
+                    return p.name.indexOf(this.keyWord4) !== -1
+                })
+            },
+        }
+    })
+    //endregion
+</script>
+</html>
