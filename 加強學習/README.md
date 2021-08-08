@@ -225,4 +225,16 @@
     - computed 過濾寫法            
     - methods 過濾寫法    
     - //#region //#endregion 可以摺疊程式碼。
+- 更新時的一個問題
+    - 在陣列裡的 Obj，如果用 obj.xxx = val，Vue 可以監測到。
+    - 在陣列裡的 Obj，如果直接把整個對象更換，Vue 無法監測到。
+        - arr[0] = obj 無效
+        - 用 arr.splice(x, x, obj) 有效
+- Vue 監視資料改變的原理_對象
+    - Vue 的 data 不管有幾層都能將 obj 的 key 賦予 get 與 set 。
+    - 主要是跟 "模擬一個資料監測" 比對。
+- 模擬一個資料監測
+    - 模擬 Vue 的資料監測，只是簡單的並沒有很完善，但主要核心功能有了。
+    - 跟 "Vue 監視資料改變的原理_對象"比對。
+
              
