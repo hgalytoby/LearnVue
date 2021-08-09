@@ -1,29 +1,53 @@
+# 選擇 Docker 最新版本
 image: docker:latest
+# Cope 來的
 stages:
   - build
+# Cope 來的，docker:dind 應該指的是 docker: docker in docker。
 services:
   - docker:dind
 
+# 設定環境變數的地方
 variables:
   # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
+  # Copy 來的，看起來是與 docker 連線。
   DOCKER_HOST: tcp://docker:2376
+  # Copy 來的。
   DOCKER_TLS_CERTDIR: "/certs"
+  # 這個要在 gitlab 上拿，https://gitlab.com/hgalytoby/vuedockertest/container_registry，右上角附近有個 Cli commands。
   CI_REGISTRY_IMAGE: registry.gitlab.com/hgalytoby/vuedockertest
+  # 這個要在 heroku 上拿，https://devcenter.heroku.com/articles/container-registry-and-runtime#pushing-an-existing-image
+  # registry.heroku.com/<app>/<process-type> -> registry.heroku.com/vuedockertest/web
   HEROKU_REGISTRY: registry.heroku.com/vuedockertest/web
 
+# k 看起來是躍登入 gitlab 的 docker 容器庫。
 before_script:
   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
+# 看起來只是個命名而已??
 build_and_deploy_to_heroku:
   stage: build
   services:
     - docker:dind
   script:
+    # 從 docker庫拉最新的下來
     - docker pull $CI_REGISTRY_IMAGE:latest || true
+    # build docker。
     - docker build --cache-from $CI_REGISTRY_IMAGE:latest --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:latest .
+    # push docker image 看起來是驗證。
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    # push docker image 看起來這才是真的 push 上去。
     - docker push $CI_REGISTRY_IMAGE:latest
+    # 上面四行指令好像是固定的?
+
+    # 登入 docker username 看起來是固定的，password 的 $HEROKU_API_KEY 要去跟 heroku 拿，拿到後要再 gitlab 上環境變數那邊設定，當然也可以在這邊設定，只是在頁面設定比較安全。
+    # https://dashboard.heroku.com/account 找到 API Key。
+    # 變數在 gitlab 專案下 settings -> CI/CD -> Variables -> Key 輸入 HEROKU_API_KEY，Value輸入 Heroku Api Key。
     - docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+    # 看起來是將最新的 build 的 docker 以 Heroku 新命名一個 docker image??
     - docker tag $CI_REGISTRY_IMAGE:latest $HEROKU_REGISTRY:latest
+    # 看起來是 push 到 heroku 上。
     - docker push $HEROKU_REGISTRY:latest
+    # HEROKU_API_KEY=$HEROKU_API_KEY 這個一定要叫 HEROKU_API_KEY，至於 $HEROKU_API_KEY 只是個環境變數名稱而已，依照當初命名代進去即可。
+    # 後面的指令都是 copy 來的，不過看起來是叫 heroku 的 cli 執行最新 docker，type 是 web  --app 選擇專案名稱。
     - docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY dickeyxxx/heroku-cli heroku container:release web --app vuedockertest

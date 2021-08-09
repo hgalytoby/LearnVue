@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+<!--
+-->
+<div id="root">
+    <h2>人員列表</h2>
+    <button @click="updateData">更新資料</button>
+    <ul>
+        <li v-for="(p, index) of persons" :key="p.id">
+            {{ p.name }} - {{ p.age }} - {{ p.sex }}
+            <input type="text">
+        </li>
+    </ul>
+
+</div>
+</body>
+
+<script type="text/javascript">
+    Vue.config.productionTip = false // 阻止 vue 在啟動時生成生產提示。
+    new Vue({
+        el: '#root',
+        data: {
+            persons: [
+                {id: 1, name: '北原春希', age: 22, sex: '男'},
+                {id: 2, name: '飯塚武也', age: 22, sex: '男'},
+                {id: 3, name: '早坂親志', age: 22, sex: '男'},
+                {id: 4, name: '冬馬和紗', age: 22, sex: '女'},
+                {id: 5, name: '冬馬曜子', age: 35, sex: '女'},
+                {id: 6, name: '小木曾雪菜', age: 22, sex: '女'},
+                {id: 7, name: '小木曾晉', age: 35, sex: '男'},
+                {id: 8, name: '小木曾秋菜', age: 35, sex: '女'},
+                {id: 9, name: '小木曾孝宏', age: 35, sex: '男'},
+                {id: 10, name: '杉浦小春', age: 18, sex: '女'},
+                {id: 11, name: '和泉千晶', age: 23, sex: '女'},
+                {id: 12, name: '風岡麻理', age: 27, sex: '女'},
+                {id: 13, name: '水澤依緒', age: 22, sex: '女'},
+            ],
+        },
+        methods: {
+            updateData(){
+                // this.persons[0].name = '鳳凰院' // 有效
+                // this.persons[0].age = '18' // 有效
+                // this.persons[0].sex = '男' // 有效
+                // this.persons[0] = {id: 1, name: '鳳凰院', age: 18, sex: '男'} // 無效
+                this.persons.splice(1, 1, {id: 2, name: '鳳凰院', age: 18, sex: '男'}) // 有效
+            }
+        }
+    })
+</script>
+</html>
