@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+
+<!--
+https://cn.vuejs.org/v2/api/index.html#Vue-set
+
+向響應式對像中添加一個 property，並確保這個新 property 同樣是響應式的，且觸發視圖更新。
+
+它必須用於向響應式對像上添加新 property，因為 Vue 無法探測普通的新增 property (比如 this.myObject.newProperty = 'hi'
+
+注意對像不能是 Vue 實例，或者 Vue 實例的根數據對象。
+
+在 data 內沒有的值一開始就被模板調用的話，會報錯!就算之後用 vue.set 也無法解決問題。
+
+但如果是在 data.key.xx 這種值被一開始調用的話是不會報錯的，只是頁面上不顯示值，可以通過 vue.set 後天補值上去達成響應式作法。
+
+使用方法
+1.
+Vue.set()
+2.
+const vm = new Vue({})
+vm.$set()
+-->
+<div id="root">
+    <h1>學校訊息</h1>
+    <h2>學校名稱: {{ school.name }}</h2>
+    <h2>學校地址: {{ school.address }}</h2>
+    <h2>校長室: {{ school.leader }}</h2>
+    <br>
+    <h1>學生訊息</h1>
+    <button @click="addSex">增加一個性別屬性，默認值是男</button>
+    <h2>姓名: {{ student.name }}</h2>
+    <h2 v-if="student.sex">性别: {{ student.sex }}</h2>
+    <h2>年齡: 真實{{ student.age.rAge }}，對外{{ student.age.sAge }}</h2>
+    <h2>朋友們</h2>
+    <ul>
+        <li v-for="(f,index) in student.friends" :key="index">
+            {{ f.name }}--{{ f.age }}
+        </li>
+    </ul>
+</div>
+</body>
+
+<script type="text/javascript">
+    Vue.config.productionTip = false // 阻止 vue 在啟動時生成生產提示。
+    const vm = new Vue({
+        el: '#root',
+        data: {
+            school: {
+                name: 'dudulu',
+                address: 'taipei',
+            },
+            student: {
+                name: 'happy',
+                age: {
+                    rAge: 40,
+                    sAge: 29,
+                },
+                friends: [
+                    {name: 'vue', age: 35},
+                    {name: 'react', age: 36}
+                ]
+            }
+        },
+        methods: {
+            addSex() {
+                // Vue.set(this.student,'sex','男')
+                this.$set(this.student, 'sex', '男')
+            }
+        }
+    })
+</script>
+</html>
