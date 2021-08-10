@@ -236,5 +236,29 @@
 - 模擬一個資料監測
     - 模擬 Vue 的資料監測，只是簡單的並沒有很完善，但主要核心功能有了。
     - 跟 "Vue 監視資料改變的原理_對象"比對。
-
-             
+- Vue.set 的使用
+    - vue.set 功能介紹 https://cn.vuejs.org/v2/api/index.html#Vue-set
+    - 在 data 內沒有的值一開始就被模板調用的話，會報錯!就算之後用 vue.set 也無法解決問題。
+    - 但如果是在 data.key.xx 這種值被一開始調用的話是不會報錯的，只是頁面上不顯示值，可以通過 vue.set 後天補值上去達成響應式作法。
+    - 使用方法
+        - 第一種
+            ```js
+            Vue.set()
+            ```
+        - 第二種
+            ```js
+            const vm = new Vue({})
+            vm.$set()
+- Vue 監視資料改變的原理_陣列
+    - Vue 監聽陣列的介紹 https://cn.vuejs.org/v2/guide/list.html#%E5%8F%98%E6%9B%B4%E6%96%B9%E6%B3%95
+    - 只有這些功能可以讓 Vue 偵測到資料變了，push()、pop()、shift()、unshift()、splice()、sort()、reverse()。
+    - 使用方法
+        - 第一種
+            ```js
+            Vue.set(vm.student.hobby, 1, '哈哈我改到了')
+            ```
+        - 第二種
+            ```js
+            const vm = new Vue({})
+            vm.$set(vm.student.hobby, 1, '哈哈我改到了')
+            ```
