@@ -1,24 +1,10 @@
-class Base:
-    Str = ""
-    Int = 0
-    List = []
-    Dict = {}
+def t():
+    print('t')
 
 
-class A(Base):
-    mood = 'Happy'
+def y():
+    print('y')
 
-
-class B(Base):
-    mood = 'Devil'
-
-
-print(A.__dict__)
-a = A()
-
-# a.__dict__.update({
-#     'A': 'a',
-#     'B': 'b'
-# })
-# print(a.__dict__)
-
+a = 10
+b = 30
+print((t, y)[a > b]())

@@ -38,8 +38,8 @@ vm.$set(vm.student.hobby, 1, '哈哈我改到了')
     <h2 v-if="student.sex">性别: {{ student.sex }}</h2>
     <h2>年齡: 真實{{ student.age.rAge }}，對外{{ student.age.sAge }}</h2>
     <ul>
-        <li v-for="(h,index) in student.hobby" :key="index">
-            {{h}}
+        <li v-for="(h, index) in student.hobby" :key="index">
+            {{ h }}
         </li>
     </ul>
     <h2>朋友們</h2>
