@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <!--    <script type="text/javascript" src="../js/vue.js"></script>-->
+
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<!--
+   v-cloak 指令(沒有值)：
+        1.本質是一個特殊屬性，Vue 實例創建完畢並接管容器後，會刪掉 v-cloak 屬性。
+        2.使用 css 配合 v-cloak 可以解決網速慢時頁面展示出 {{ xxx }} 的問題。
+-->
+<div id="root">
+    <h2 v-cloak>{{ name }}</h2>
+</div>
+<!-- 需要有一個伺服器提供 vue.js 並且擁有延遲幾秒後才能拿到 js 的功能。 -->
+<!--<script type="text/javascript" src="http://localhost:8080/sleep/5s/vue.js"></script>-->
+</body>
+
+<script type="text/javascript">
+    Vue.config.productionTip = false // 阻止 vue 在啟動時生成生產提示。
+    new Vue({
+        el: '#root',
+        data: {
+            name: '嘟嘟嚕'
+        }
+    })
+</script>
+</html>
