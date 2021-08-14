@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .demo {
+            background-color: orange;
+        }
+    </style>
+</head>
+<body>
+<!-- 演示原生 js focus 的流程。 -->
+<button id="btn">點擊創建輸入框</button>
+<script type="text/javascript">
+    const btn = document.getElementById('btn')
+    btn.onclick = () => {
+        const input = document.createElement('input')
+
+        input.className = 'demo'
+        input.value = 99
+        input.onclick = () => {
+            alert(1)
+        }
+
+        document.body.appendChild(input)
+
+        input.focus()
+        // input.parentElement.style.backgroundColor = 'skyblue'
+        console.log(input.parentElement)
+
+    }
+</script>
+
+</body>
+</html>
