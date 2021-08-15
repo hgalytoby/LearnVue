@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+<!--
+    常用的生命週期鉤子：
+        1.mounted: 發送ajax請求、啟動定時器、綁定自定義事件、訂閱消息等【初始化操作】。
+        2.beforeDestroy: 清除定時器、解綁自定義事件、取消訂閱消息等【收尾工作】。
+
+    關於銷毀 Vue實例
+        1.銷毀後藉助 Vue 開發者工具看不到任何訊息。
+        2.銷毀後自定義事件會失效，但原生 DOM 事件依然有效。
+        3.一般不會在 beforeDestroy 操作數據，因為即便操作數據，也不會再觸發更新流程了。
+-->
+<div id="root">
+    <h2 :style="{opacity}">學習 Vue</h2>
+    <button @click="opacity = 1">透明度設定 1</button>
+    <button @click="start">點擊開始變換透明度</button>
+    <button @click="stop">點擊停止變換透明度</button>
+    <button @click="kill">銷毀 Vue</button>
+</div>
+</body>
+
+<script type="text/javascript">
+    Vue.config.productionTip = false // 阻止 vue 在啟動時生成生產提示。
+    new Vue({
+        el: '#root',
+        data: {
+            opacity: 1,
+            timer: null, // 這裡可寫可不寫，因為是觸發事件後才出現的 this.變數，只是個人喜歡將自定義的變數寫在這。
+            killStatus: false
+        },
+        methods: {
+            stop() {
+                // 雖然能實現停止計時器，但通常不會在這裡寫，但這裡是要實現暫停，並還能在啟用，所以在這裡寫。
+                clearInterval(this.timer)
+            },
+            start() {
+                if (!this.killStatus) {
+                    this.timer = setInterval(() => {
+                        console.log('setInterval')
+                        this.opacity -= 0.01
+                        if (this.opacity <= 0) this.opacity = 1
+                    }, 16)
+                }
+            },
+            kill() {
+                this.$destroy()
+            }
+        },
+        // Vue 完成模板的解析並把初始的真實 DOM 元素放入頁面後(掛載完畢)調用 mounted
+        mounted() {
+            console.log('mounted', this)
+            this.start()
+        },
+        beforeDestroy() {
+            clearInterval(this.timer)
+            this.killStatus = true
+            console.log('vm 即將銷毀')
+        },
+    })
+</script>
+</html>

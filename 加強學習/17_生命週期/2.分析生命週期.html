@@ -12,71 +12,94 @@
     <button @click="add">點擊 n + 1</button>
     <button @click="bye">點擊摧毀 vm</button>
 </div>
+<div id="root2" :x="n">
+
+</div>
 </body>
 
 <script type="text/javascript">
     Vue.config.productionTip = false // 阻止 vue 在啟動時生成生產提示。
+    // 會將 el 整個替換掉，所以在 div id="root2" 後面帶的元素都會消失。
     new Vue({
-			el:'#root',
-			// template:`
-			// 	<div>
-			// 		<h2>現在 n 值是: {{ n }}</h2>
-			// 		<button @click="add">點我 n + 1</button>
-			// 	</div>
-			// `,
-			data:{
-				n:1
-			},
-			methods: {
-				add(){
-					console.log('add')
-					this.n++
-				},
-				bye(){
-					console.log('bye')
-					this.$destroy()
-				}
-			},
-			watch:{
-				n(){
-					console.log('n 變了')
-				}
-			},
-			beforeCreate() {
-			    // 還沒有 _data methods。
-				console.log('beforeCreate, this: ', this)
-                debugger
-			},
-			created() {
-			    // data 與 methods 都有了。
-				console.log(`created, this: `, this)
-                debugger
-			},
-			beforeMount() {
-			    // DOM 創建出來了，但是還沒放到網頁上渲染。
-				console.log('beforeMount')
-                debugger
-			},
-			mounted() {
-			    // 判斷 this.$el 是不是真實 DOM
-				console.log(`mounted, DOM: ${this.$el instanceof HTMLElement}`)
-                debugger
-			},
-			beforeUpdate() {
-			    // 頁面上資料還沒變，但是 Vue 內的資料已經變了。
-				console.log(`beforeUpdate, n: ${this.n}`)
-                debugger
-			},
-			updated() {
-			    console.log(`updated, n: ${this.n}`)
-                debugger
-			},
-			beforeDestroy() {
-				console.log('beforeDestroy')
-			},
-			destroyed() {
-				console.log('destroyed')
-			},
-		})
+        el: '#root2',
+        template: `
+            <div>
+                <h2>現在 n 值是: {{ n }}</h2>
+                <button @click="add">點我 n + 1</button>
+            </div>
+        `,
+        data: {
+            n: 1
+        },
+        methods: {
+            add() {
+                console.log('root2 add')
+                this.n++
+            },
+        }
+    })
+    new Vue({
+        el: '#root',
+        data: {
+            n: 1
+        },
+        methods: {
+            add() {
+                console.log('add')
+                this.n++
+            },
+            bye() {
+                console.log('bye')
+                this.$destroy()
+            }
+        },
+        watch: {
+            n() {
+                console.log('n 變了')
+            }
+        },
+        beforeCreate() {
+            // 還沒有 _data methods。
+            console.log('beforeCreate, this: ', this)
+            debugger
+        },
+        created() {
+            // data 與 methods 都有了。
+            console.log(`created, this: `, this)
+            debugger
+        },
+        beforeMount() {
+            // DOM 創建出來了，但是還沒放到網頁上渲染。
+            console.log('beforeMount')
+            debugger
+        },
+        mounted() {
+            // 判斷 this.$el 是不是真實 DOM
+            console.log(`mounted, DOM: ${this.$el instanceof HTMLElement}`)
+            debugger
+        },
+        beforeUpdate() {
+            // 頁面上資料還沒變，但是 Vue 內的資料已經變了。
+            console.log(`beforeUpdate, n: ${this.n}`)
+            debugger
+        },
+        updated() {
+            console.log(`updated, n: ${this.n}`)
+            // 第一次按下去觸發了值變了，但是在 updated 內更新值，將會在觸發一次生命週期流程。
+            this.n = 99
+            debugger
+        },
+        beforeDestroy() {
+            console.log(`beforeDestroy, n: ${this.n}`)
+            // 還可以調用到 data 與 methods，但不會頁面上已經不會有變化了。
+            this.add()
+            // 值確實變了，證實了頁面不會有變化。
+            console.log(`beforeDestroy, n: ${this.n}`)
+        },
+        destroyed() {
+            // 基本上這邊幾乎都不做事情的。
+            console.log('destroyed')
+        },
+    })
 </script>
 </html>
