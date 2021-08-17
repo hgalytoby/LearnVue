@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+</div>
+</body>
+
+<script type="text/javascript">
+    Vue.config.productionTip = false // 阻止 vue 在啟動時生成生產提示。
+
+    // 定義 student 組件
+    const student = Vue.extend({
+        template: `<div>
+            <h2>學生名稱: {{ name }}</h2>
+            <h2>學生年齡: {{ age }}</h2>
+        </div>`,
+        data(){
+            return {
+                name: 'dudulu',
+                age: 27
+            }
+        }
+    })
+
+     // 定義 school 組件
+    const school = Vue.extend({
+        template: `<div>
+            <h2>學校名稱: {{ name }}</h2>
+            <h2>學校地址: {{ address }}</h2>
+            <student></student>
+        </div>`,
+        data(){
+            return {
+                name: 'Vue 教學',
+                address: 'taipei',
+            }
+        },
+        components: {
+            student
+        }
+    })
+
+    // 定義 hello 組件
+    const hello = Vue.extend({
+        template: `<h1>{{ msg }}</h1>`,
+        data(){
+            return {
+                msg: '歡迎來看組件的嵌套',
+            }
+        }
+    })
+
+    // 定義 app 組件
+    const app = Vue.extend({
+        template: `<div>
+            <hello></hello>
+            <school></school>
+        </div>`,
+        components:{
+            hello,
+            school
+        }
+    })
+
+    // 創建 vm
+    new Vue({
+        el: '#root',
+        template: `<app></app>`,
+        // 註冊組建(局部)
+        components: {
+            app
+        }
+    })
+</script>
+</html>
