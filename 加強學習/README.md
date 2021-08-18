@@ -410,3 +410,18 @@
         - const school = Vue.extend(options) 可簡寫為: const school = options
 - 3.組件的嵌套  
     - 正常的流程由最外層一個組件去管理所有的組件。
+- 4.VueComponent
+    - 關於 VueComponent: 
+        - 1.school 組件本質是一個名為 VueComponent 的構造函數，且不是程式員定義的，是 Vue.extend 生成的。
+        - 2.只需要寫 <school/> 或<school></school>，Vue 解析時會幫我們創建 school 組件的實例對象，即 Vue 幫我們執行的: new VueComponent(options)。
+        - 3.特別注意: 每次調用 Vue.extend，返回的都是一個全新的 VueComponent!!!!
+        - 4.關於 this 指向:
+            - (1).組件配置中: 
+                - data 函數、methods 中的函數、watch 中的函數、computed 中的函數 它們的 this 均是【VueComponent 實例對象】。
+            - (2).new Vue(options)配置中: 
+                - data 函數、methods 中的函數、watch 中的函數、computed 中的函數 它們的 this 均是【Vue 實例對象】。
+        - 5.VueComponent 的實例對象，以後簡稱vc（也可稱之為: 組件實例對象）。
+            - Vue的實例對象，以後簡稱vm
+- 5.一個重要的內置關係
+    - 1.一個重要的內置關係: VueComponent.prototype.__proto__ === Vue.prototype
+    - 2.為什麼要有這個關係: 讓組件實例對象（vc）可以訪問到 Vue 原型上的屬性、方法。
