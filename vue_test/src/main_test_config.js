@@ -26,3 +26,5 @@ new Vue({
 //   el: '#app',
 //   render: h => h(App),
 // })
+let person = {name: 'dudulu'}
+console.log('我是 main_test_config.js')

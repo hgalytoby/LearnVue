@@ -1,5 +1,6 @@
 <template>
     <div>
+        <img src="./" alt="">
         <School></School>
         <Student></Student>
     </div>
@@ -7,8 +8,8 @@
 
 <script>
     // 導入組件
-    import School from "./School";
-    import Student from "./Student";
+    import School from "./School"
+    import Student from "./Student"
 
     export default {
         name: "App",

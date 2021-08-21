@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html lang="">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-  <title><%= htmlWebpackPlugin.options.title %></title>
+    <meta charset="utf-8">
+    <!-- 針對 IE 瀏覽器的一個特殊設定，用意是讓 IE 瀏覽器的以最高的渲染級別渲染頁面。 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 開啟移動端的東西 -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!-- 設定頁面的圖標，<%= BASE_URL %> 等於 "./"，底層已經處理好路徑問題。 -->
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <!-- 設定網頁的標題，在 package.json 內的 name 可以修改名字。 -->
+    <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body>
+<!-- 如果瀏覽器不支援 Js 時，noscript 裡面的元素就會被渲染。 -->
 <noscript>
-  <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
-    Please enable it to continue.</strong>
+    <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
+        Please enable it to continue.</strong>
 </noscript>
+<!-- 容器 -->
 <div id="app"></div>
 <!-- built files will be auto injected -->
 </body>

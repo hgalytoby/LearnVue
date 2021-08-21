@@ -1,8 +1,9 @@
 .idea
+node_modules
 ./myapp/node_modules
 ./myapp/.idea
 ./基礎學習/.idea
 ./基礎學習/test.py
 ./加強學習/te
 ./vue_test/.idea
-./vue_test/node_modules
+await.md
