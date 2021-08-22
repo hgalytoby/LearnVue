@@ -29,7 +29,8 @@ module.exports = {
   pages: {
     index: {
       // page 的入口
-      entry: 'src/main_test_config.js',
+      entry: 'src/main.js',
+      // entry: 'src/main_test_config.js',
     },
   },
   // 關閉語法檢查

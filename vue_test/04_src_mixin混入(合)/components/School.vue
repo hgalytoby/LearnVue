@@ -1,25 +1,26 @@
 <template>
     <div>
-        <h2>學校: {{ name | mySlice }}</h2>
+        <h2 @click="showName">學校: {{ name }}</h2>
         <h2>地址: {{ address }}</h2>
-        <button @click="test">點擊測試 Hello 方法</button>
     </div>
 </template>
 
 <script>
+    // 引入 mixinTest
+    // import {mixinTest1, mixinTest2} from "../mixin";
 
     export default {
         name: "Student",
         data() {
             return {
-                name: 'VueVueVue',
+                name: 'Vue',
                 address: 'Taipei',
             }
         },
-        methods:{
-            test(){
-                this.hello()
-            }
+        // 局部混入
+        // mixins: [mixinTest1, mixinTest2],
+        mounted() {
+            console.log('來囉!')
         }
     }
 </script>
