@@ -10,7 +10,7 @@
     // import {mixinTest1, mixinTest2} from "../mixin";
 
     export default {
-        name: "Student",
+        name: "School",
         data() {
             return {
                 name: 'Vue',

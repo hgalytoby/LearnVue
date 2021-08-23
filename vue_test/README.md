@@ -52,6 +52,19 @@
         }
         ```
     > 備註: props 是只讀的，Vue 底層會監測 props 的修改，如果進行了修改，就會發出警告，若業務需求確實需要修改，那麼請複製 props 的內容到 data 中一份，然後去修改 data 中的資料。
+- 4.Prop Types
+    - https://vuejs.org/v2/guide/components-props.html#Prop-Types
+    ```js
+    props: {
+        title: String,
+        likes: Number,
+        isPublished: Boolean,
+        commentIds: Array,
+        author: Object,
+        callback: Function,
+        contactsPromise: Promise // or any other constructor
+    }
+    ```
 
 ## mixin(混入)
 - 1.功能: 可以把多個組件共用的設定提取成一個混入對象
@@ -88,3 +101,13 @@
         Vue.prototype.$myProperty = xxxx
     }
     ```
+- 4.使用插件: ```Vue.use()```
+
+## scoped樣式
+- 1.作用: 讓樣式在局部生效，防止衝突。
+- 2.寫法: ```<style scoped>```
+- 3.補充
+    - 查看 less 版本 (css)
+        - npm view less-loader versions
+        - Vue 腳手架用 webpack 4.46.0，所以選擇 less-loader 6 ~ 7版本。
+            - `npm i less-loader@7` 預設裝 7 最新。

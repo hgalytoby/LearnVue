@@ -2,6 +2,7 @@
     <div>
         <h2>學校: {{ name | mySlice }}</h2>
         <h2>地址: {{ address }}</h2>
+        <input type="text" v-fbind2:value="name">
         <button @click="test">點擊測試 Hello 方法</button>
     </div>
 </template>
@@ -9,7 +10,7 @@
 <script>
 
     export default {
-        name: "Student",
+        name: "School",
         data() {
             return {
                 name: 'VueVueVue',
