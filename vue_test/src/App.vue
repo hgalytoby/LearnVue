@@ -2,7 +2,7 @@
     <div class="todo-container">
         <div class="todo-wrap">
             <MyHeader :addTodo="addTodo"></MyHeader>
-            <MyList :todos="todos"></MyList>
+            <MyList :todos="todos" :checkTodo="checkTodo" :deleteTodo="deleteTodo"></MyList>
             <MyFooter :todos="todos"></MyFooter>
         </div>
     </div>
@@ -25,10 +25,25 @@
             }
         },
         methods: {
+            // 增加一個  todo
             addTodo(x) {
                 console.log('我是 App 組件，我收到了資料:', x, x.id)
                 this.todos.unshift(x)
-            }
+            },
+            // 勾選 or 取消勾選一個 todo
+            checkTodo(id) {
+                this.todos.forEach((todo) => {
+                    if (todo.id === id) {
+                        todo.done = !todo.done
+                    }
+                })
+            },
+            //
+            deleteTodo(todoId) {
+                this.todos = this.todos.filter((todo) => {
+                    return todo.id !== todoId
+                })
+            },
         },
         components: {
             MyHeader,
