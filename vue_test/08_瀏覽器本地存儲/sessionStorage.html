@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>sessionStorage</h2>
+<button onclick="saveData()">點擊保存資料。</button>
+<button onclick="readData()">點擊查看資料。</button>
+<button onclick="deleteData()">點擊刪除資料。</button>
+<button onclick="deleteAllData()">點擊刪除資料。</button>
+<script type="text/javascript">
+    function saveData() {
+        sessionStorage.setItem('msg1', 'Hello World!')
+        sessionStorage.setItem('msg2', 666)
+        sessionStorage.setItem('msg3', JSON.stringify([1, 2, 3]))
+        sessionStorage.setItem('msg4', JSON.stringify({'Hello': 'World'}))
+    }
+
+    function readData() {
+        console.log(sessionStorage.getItem('msg1'))
+        console.log(sessionStorage.getItem('msg2'))
+        console.log(sessionStorage.getItem('msg3'))
+        console.log(sessionStorage.getItem('msg4'))
+    }
+
+    function deleteData() {
+        sessionStorage.removeItem('msg1')
+        sessionStorage.removeItem('msg2')
+        sessionStorage.removeItem('msg3')
+        sessionStorage.removeItem('msg4')
+    }
+    function deleteAllData() {
+        sessionStorage.clear()
+    }
+</script>
+</body>
+</html>

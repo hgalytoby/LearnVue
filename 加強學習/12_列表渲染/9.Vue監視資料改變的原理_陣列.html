@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+
+<!--
+https://cn.vuejs.org/v2/guide/list.html#%E5%8F%98%E6%9B%B4%E6%96%B9%E6%B3%95
+
+Vue 將被偵聽的數組的變更方法進行了包裝，所以它們也將會觸發視圖更新。這些被包裝過的方法包括：
+push()
+pop()
+shift()
+unshift()
+splice()
+sort()
+reverse()
+除了以上方法還有一種方法可以偵測，就是使用 Vue.set()
+範例:
+1.
+Vue.set(vm.student.hobby, 1, '哈哈我改到了')
+2.
+const vm = new Vue({})
+vm.$set(vm.student.hobby, 1, '哈哈我改到了')
+-->
+<div id="root">
+    <h1>學校訊息</h1>
+    <h2>學校名稱: {{ school.name }}</h2>
+    <h2>學校地址: {{ school.address }}</h2>
+    <h2>校長室: {{ school.leader }}</h2>
+    <br>
+    <h1>學生訊息</h1>
+    <button @click="addSex">增加一個性別屬性，默認值是男</button>
+    <h2>姓名: {{ student.name }}</h2>
+    <h2 v-if="student.sex">性别: {{ student.sex }}</h2>
+    <h2>年齡: 真實{{ student.age.rAge }}，對外{{ student.age.sAge }}</h2>
+    <ul>
+        <li v-for="(h, index) in student.hobby" :key="index">
+            {{ h }}
+        </li>
+    </ul>
+    <h2>朋友們</h2>
+    <ul>
+        <li v-for="(f,index) in student.friends" :key="index">
+            {{ f.name }}--{{ f.age }}
+        </li>
+    </ul>
+</div>
+</body>
+
+<script type="text/javascript">
+    Vue.config.productionTip = false // 阻止 vue 在啟動時生成生產提示。
+    const vm = new Vue({
+        el: '#root',
+        data: {
+            school: {
+                name: 'dudulu',
+                address: 'taipei',
+            },
+            student: {
+                name: 'happy',
+                age: {
+                    rAge: 40,
+                    sAge: 29,
+                },
+                hobby: ['追', '放', '逃'],
+                friends: [
+                    {name: 'vue', age: 35},
+                    {name: 'react', age: 36}
+                ]
+            }
+        },
+        methods: {
+            addSex() {
+                // Vue.set(this.student,'sex','男')
+                this.$set(this.student, 'sex', '男')
+            }
+        }
+    })
+</script>
+</html>

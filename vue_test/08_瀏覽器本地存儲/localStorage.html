@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>localStorage</h2>
+<button onclick="saveData()">點擊保存資料。</button>
+<button onclick="readData()">點擊查看資料。</button>
+<button onclick="deleteData()">點擊刪除資料。</button>
+<button onclick="deleteAllData()">點擊刪除資料。</button>
+<script type="text/javascript">
+    function saveData() {
+        localStorage.setItem('msg1', 'Hello World!')
+        localStorage.setItem('msg2', 666)
+        localStorage.setItem('msg3', JSON.stringify([1, 2, 3]))
+        localStorage.setItem('msg4', JSON.stringify({'Hello': 'World'}))
+    }
+
+    function readData() {
+        console.log(localStorage.getItem('msg1'))
+        console.log(localStorage.getItem('msg2'))
+        console.log(localStorage.getItem('msg3'))
+        console.log(localStorage.getItem('msg4'))
+    }
+
+    function deleteData() {
+        localStorage.removeItem('msg1')
+        localStorage.removeItem('msg2')
+        localStorage.removeItem('msg3')
+        localStorage.removeItem('msg4')
+    }
+    function deleteAllData() {
+        localStorage.clear()
+    }
+</script>
+</body>
+</html>
