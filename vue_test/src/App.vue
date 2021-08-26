@@ -1,111 +1,66 @@
 <template>
-    <div class="todo-container">
-        <div class="todo-wrap">
-            <MyHeader :addTodo="addTodo"></MyHeader>
-            <MyList :todos="todos" :checkTodo="checkTodo" :deleteTodo="deleteTodo"></MyList>
-            <MyFooter :todos="todos" :checkAllTodo="checkAllTodo" :clearAllTodo="clearAllTodo"></MyFooter>
-        </div>
+    <div class="app">
+        <h1 class="title">{{ msg }}</h1>
+        <!-- 通過父組件給子組件傳遞函數類型的 props: 子給父傳遞資料 -->
+        <School :getSchoolName="getSchoolName"></School>
+        <!-- 通過父組件給子組件綁定一個自定義事件實現: 子給父傳遞資料 (第一種寫法，使用 @ 或 v-on) -->
+        <Student v-on:dudulu="getStudentName"></Student>
+        <Student @dudulu="getStudentName"></Student>
+        <!-- 只觸發一次 -->
+        <Student @dudulu.once="getStudentName"></Student>
+        <!-- 綁兩個 -->
+        <Student @dudulu="getStudentName" @demo="m1"></Student>
+        <!-- 通過父組件給子組件綁定一個自定義事件實現: 子給父傳遞資料 (第二種寫法，使用 ref)-->
+        <Student ref="student"></Student>
     </div>
 </template>
 
 <script>
-    import MyHeader from "./components/MyHeader";
-    import MyList from "./components/MyList";
-    import MyFooter from "./components/MyFooter";
+    import School from "./components/School";
+    import Student from "./components/Student";
 
     export default {
         name: "App",
         data() {
             return {
-                todos: [
-                    {id: '001', title: '吃飯', done: true},
-                    {id: '002', title: '讀書', done: false},
-                    {id: '003', title: '睡覺', done: true},
-                ]
+                'msg': '你好啊!'
             }
         },
         methods: {
-            // 增加一個  todo
-            addTodo(x) {
-                console.log('我是 App 組件，我收到了資料:', x, x.id)
-                this.todos.unshift(x)
+            getSchoolName(name) {
+                console.log(`App 收到學校名稱了: ${name}`)
             },
-            // 勾選 or 取消勾選一個 todo
-            checkTodo(id) {
-                this.todos.forEach((todo) => {
-                    if (todo.id === id) {
-                        todo.done = !todo.done
-                    }
-                })
+            getStudentName(name, sex, ...params){
+                console.log(`App 收到學生資料了: ${name} ${sex}`, 'params: ', params, `f-string params: ${params}`)
             },
-            //
-            deleteTodo(todoId) {
-                this.todos = this.todos.filter((todo) => {
-                    return todo.id !== todoId
-                })
-            },
-            checkAllTodo(done){
-                console.log(done)
-                this.todos.forEach((todo)=>{
-                    todo.done = done
-                })
-            },
-            clearAllTodo(){
-                this.todos = this.todos.filter((todo) => {
-                    return !todo.done
-                })
+            m1(demo){
+                console.log('demo', demo)
             }
         },
         components: {
-            MyHeader,
-            MyList,
-            MyFooter,
+            School,
+            Student
         },
+        mounted() {
+            // setTimeout 等三秒在綁定的，可以發現用 ref 可以更靈活。
+            // setTimeout(() => {
+            //     this.$refs.student.$on('dudulu', this.getStudentName)
+            // }, 3000)
+            // 綁定自定義事件
+            // this.$refs.student.$on('dudulu', this.getStudentName)
+            // 只能觸發一次
+            this.$refs.student.$once('dudulu', this.getStudentName)
+        }
     }
 </script>
 
-<style>
-    /*base*/
-    body {
-        background: #fff;
+<style scoped lang="css">
+    .app {
+        background-color: gray;
+        padding: 5px;
     }
 
-    .btn {
-        display: inline-block;
-        padding: 4px 12px;
-        margin-bottom: 0;
-        font-size: 14px;
-        line-height: 20px;
-        text-align: center;
-        vertical-align: middle;
-        cursor: pointer;
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
-        border-radius: 4px;
-    }
-
-    .btn-danger {
-        color: #fff;
-        background-color: #da4f49;
-        border: 1px solid #bd362f;
-    }
-
-    .btn-danger:hover {
-        color: #fff;
-        background-color: #bd362f;
-    }
-
-    .btn:focus {
-        outline: none;
-    }
-
-    .todo-container {
-        width: 600px;
-        margin: 0 auto;
-    }
-
-    .todo-container .todo-wrap {
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
+    .title {
+        color: red;
     }
 </style>

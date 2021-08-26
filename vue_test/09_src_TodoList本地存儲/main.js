@@ -9,10 +9,5 @@ Vue.config.productionTip = false
 // 創建 vm
 new Vue({
     el: '#app',
-    render: h => h(App),
-    mounted(){
-        setTimeout(() => {
-            this.$destroy()
-        }, 3000)
-    }
+    render: h => h(App)
 })
