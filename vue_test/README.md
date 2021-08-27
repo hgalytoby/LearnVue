@@ -142,3 +142,22 @@
     - 2.LocalStorage 存儲的內容，需要手動清除才會消失。
     - 3.```xxxxxStorage.getItem(xxx)```如果 xxx 對應的 value 獲取不到，那麼 getItem 的返回值是null。
     - 4.```JSON.parse(null)```的結果依然是 null。
+    
+## 組件的自定義事件
+- 1.一種組件間通信的方式，適用於: <strong style="color:red">子組件 ===> 父組件</strong>
+- 2.使用場景: A 是父組件，B 是子組件，B 想給 A 傳資料，那麼就要在 A 中給 B 綁定自定義事件(<span style="color:red">事件的回調在 A 中</span>)。
+- 3.綁定自定義事件: 
+    - 1.第一種方式，在父組件中: ```<Demo @dudulu="test"/>```  或 ```<Demo v-on:dudulu="test"/>```
+    - 2.第二種方式，在父組件中: 
+        ```js
+        <Demo ref="demo"/>
+        ...
+        mounted(){
+           this.$refs.xxx.$on('dudulu', this.test)
+        }
+        ```
+    - 3.若想讓自定義事件只能觸發一次，可以使用```once```修飾符，或```$once```方法。
+- 4.觸發自定義事件: ```this.$emit('dudulu', 資料)```		
+- 5.解綁自定義事件```this.$off('dudulu')```
+- 6.組件上也可以綁定原生DOM事件，需要使用```native```修飾符。
+- 7.注意: 通過```this.$refs.xxx.$on('dudulu', 回調)```綁定自定義事件時，回調<span style="color:red">要麼配置在 methods 中</span>，<span style="color:red">要麼用箭頭函數</span>，否則 this 指向會出問題！

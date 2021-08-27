@@ -1,6 +1,6 @@
 <template>
     <div class="app">
-        <h1 class="title">{{ msg }}</h1>
+        <h1 class="title">{{ msg }}, 學生姓名是: {{ studentName }}</h1>
         <!-- 通過父組件給子組件傳遞函數類型的 props: 子給父傳遞資料 -->
         <School :getSchoolName="getSchoolName"></School>
         <!-- 通過父組件給子組件綁定一個自定義事件實現: 子給父傳遞資料 (第一種寫法，使用 @ 或 v-on) -->
@@ -12,6 +12,7 @@
         <Student @dudulu="getStudentName" @demo="m1"></Student>
         <!-- 通過父組件給子組件綁定一個自定義事件實現: 子給父傳遞資料 (第二種寫法，使用 ref)-->
         <Student ref="student"></Student>
+        <Student ref="student" @click.native="show"></Student>
     </div>
 </template>
 
@@ -23,7 +24,8 @@
         name: "App",
         data() {
             return {
-                'msg': '你好啊!'
+                'msg': '你好啊!',
+                'studentName': '',
             }
         },
         methods: {
@@ -32,9 +34,13 @@
             },
             getStudentName(name, sex, ...params){
                 console.log(`App 收到學生資料了: ${name} ${sex}`, 'params: ', params, `f-string params: ${params}`)
+                this.studentName = name
             },
             m1(demo){
                 console.log('demo', demo)
+            },
+            show(){
+                alert('show')
             }
         },
         components: {
@@ -50,6 +56,11 @@
             // this.$refs.student.$on('dudulu', this.getStudentName)
             // 只能觸發一次
             this.$refs.student.$once('dudulu', this.getStudentName)
+            // 也可以用箭頭涵式實現，但是不能使用 function 方式實現，因為 this 會變成 student 。
+            // this.$refs.student.$on('dudulu', (name, sex, ...params) => {
+            //     console.log(`App 收到學生資料了: ${name} ${sex}`, 'params: ', params, `f-string params: ${params}`)
+            //     this.studentName = name
+            // })
         }
     }
 </script>

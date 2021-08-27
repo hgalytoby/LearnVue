@@ -28,6 +28,7 @@
             sendStudentName(){
                 this.$emit('dudulu', this.name, this.sex, 'x', 'y', 'z')
                 this.$emit('demo', 'hello demo')
+                this.$emit('click', 'hello demo')
             },
             unbind(){
                 // 所有事件解綁
