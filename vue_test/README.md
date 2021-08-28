@@ -161,3 +161,29 @@
 - 5.解綁自定義事件```this.$off('dudulu')```
 - 6.組件上也可以綁定原生DOM事件，需要使用```native```修飾符。
 - 7.注意: 通過```this.$refs.xxx.$on('dudulu', 回調)```綁定自定義事件時，回調<span style="color:red">要麼配置在 methods 中</span>，<span style="color:red">要麼用箭頭函數</span>，否則 this 指向會出問題！
+
+## 全局事件總線(GlobalEventBus)
+- 1.一種組件間通信的方式，適用於<span style="color:red">任意組件間通信</span>。
+- 2.安裝全局事件總線: 
+   ```js
+   new Vue({
+   	...
+   	beforeCreate() {
+   		Vue.prototype.$bus = this //安裝全局事件總線，$bus 就是當前應用的 vm
+   	},
+       ...
+   }) 
+   ```
+- 3.使用事件總線: 
+   - 1.接收資料: A 組件想接收資料，則在 A 組件中給 $bus 綁定自定義事件，事件的<span style="color:red">回調留在 A 組件自身。</span>
+      ```js
+      methods() {
+        demo(data){......}
+      }
+      ......
+      mounted() {
+        this.$bus.$on('xxxx', this.demo)
+      }
+      ```
+   - 2.提供資料: ```this.$bus.$emit('xxxx', 資料)```
+- 4.最好在 beforeDestroy 鉤子中，用 $off 去解綁<span style="color:red">當前組件所用到的</span>事件。

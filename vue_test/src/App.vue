@@ -1,77 +1,134 @@
 <template>
-    <div class="app">
-        <h1 class="title">{{ msg }}, 學生姓名是: {{ studentName }}</h1>
-        <!-- 通過父組件給子組件傳遞函數類型的 props: 子給父傳遞資料 -->
-        <School :getSchoolName="getSchoolName"></School>
-        <!-- 通過父組件給子組件綁定一個自定義事件實現: 子給父傳遞資料 (第一種寫法，使用 @ 或 v-on) -->
-        <Student v-on:dudulu="getStudentName"></Student>
-        <Student @dudulu="getStudentName"></Student>
-        <!-- 只觸發一次 -->
-        <Student @dudulu.once="getStudentName"></Student>
-        <!-- 綁兩個 -->
-        <Student @dudulu="getStudentName" @demo="m1"></Student>
-        <!-- 通過父組件給子組件綁定一個自定義事件實現: 子給父傳遞資料 (第二種寫法，使用 ref)-->
-        <Student ref="student"></Student>
-        <Student ref="student" @click.native="show"></Student>
+    <div class="todo-container">
+        <div class="todo-wrap">
+            <MyHeader @addTodo="addTodo"></MyHeader>
+            <MyList :todos="todos"></MyList>
+            <MyFooter :todos="todos" @checkAllTodo="checkAllTodo" @clearAllTodo="clearAllTodo"></MyFooter>
+        </div>
+        <button @click="killApp">銷毀自身組件。</button>
     </div>
 </template>
 
 <script>
-    import School from "./components/School";
-    import Student from "./components/Student";
+    import MyHeader from "./components/MyHeader";
+    import MyList from "./components/MyList";
+    import MyFooter from "./components/MyFooter";
 
     export default {
         name: "App",
         data() {
             return {
-                'msg': '你好啊!',
-                'studentName': '',
+                // todos: [
+                //     {id: '001', title: '吃飯', done: true},
+                //     {id: '002', title: '讀書', done: false},
+                //     {id: '003', title: '睡覺', done: true},
+                // ]
+                todos: JSON.parse(localStorage.getItem('todos')) || []
             }
         },
         methods: {
-            getSchoolName(name) {
-                console.log(`App 收到學校名稱了: ${name}`)
+            // 增加一個  todo
+            addTodo(x) {
+                console.log('我是 App 組件，我收到了資料:', x, x.id)
+                this.todos.unshift(x)
             },
-            getStudentName(name, sex, ...params){
-                console.log(`App 收到學生資料了: ${name} ${sex}`, 'params: ', params, `f-string params: ${params}`)
-                this.studentName = name
+            // 勾選 or 取消勾選一個 todo
+            checkTodo(todoId) {
+                this.todos.forEach((todo) => {
+                    if (todo.id === todoId) {
+                        todo.done = !todo.done
+                    }
+                })
             },
-            m1(demo){
-                console.log('demo', demo)
+            //
+            deleteTodo(todoId) {
+                this.todos = this.todos.filter((todo) => {
+                    return todo.id !== todoId
+                })
             },
-            show(){
-                alert('show')
+            checkAllTodo(done) {
+                console.log(done)
+                this.todos.forEach((todo) => {
+                    todo.done = done
+                })
+            },
+            clearAllTodo() {
+                this.todos = this.todos.filter((todo) => {
+                    return !todo.done
+                })
+            },
+            killApp(){
+                this.$destroy()
             }
         },
         components: {
-            School,
-            Student
+            MyHeader,
+            MyList,
+            MyFooter,
+        },
+        watch: {
+            todos: {
+                deep: true,
+                handler(value) {
+                    localStorage.setItem('todos', JSON.stringify(value))
+                }
+                // console.log('watch todos', JSON.stringify(value))
+                // console.log('watch todos value', value[0].done)
+                // console.log(localStorage.getItem('todo', 456))
+            }
         },
         mounted() {
-            // setTimeout 等三秒在綁定的，可以發現用 ref 可以更靈活。
-            // setTimeout(() => {
-            //     this.$refs.student.$on('dudulu', this.getStudentName)
-            // }, 3000)
-            // 綁定自定義事件
-            // this.$refs.student.$on('dudulu', this.getStudentName)
-            // 只能觸發一次
-            this.$refs.student.$once('dudulu', this.getStudentName)
-            // 也可以用箭頭涵式實現，但是不能使用 function 方式實現，因為 this 會變成 student 。
-            // this.$refs.student.$on('dudulu', (name, sex, ...params) => {
-            //     console.log(`App 收到學生資料了: ${name} ${sex}`, 'params: ', params, `f-string params: ${params}`)
-            //     this.studentName = name
-            // })
+            this.$bus.$on('checkTodo', this.checkTodo)
+            this.$bus.$on('deleteTodo', this.deleteTodo)
+        },
+        beforeDestroy() {
+            this.$bus.$off(['checkTodo', 'deleteTodo'])
         }
     }
 </script>
 
-<style scoped lang="css">
-    .app {
-        background-color: gray;
-        padding: 5px;
+<style>
+    /*base*/
+    body {
+        background: #fff;
     }
 
-    .title {
-        color: red;
+    .btn {
+        display: inline-block;
+        padding: 4px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        line-height: 20px;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+        border-radius: 4px;
+    }
+
+    .btn-danger {
+        color: #fff;
+        background-color: #da4f49;
+        border: 1px solid #bd362f;
+    }
+
+    .btn-danger:hover {
+        color: #fff;
+        background-color: #bd362f;
+    }
+
+    .btn:focus {
+        outline: none;
+    }
+
+    .todo-container {
+        width: 600px;
+        margin: 0 auto;
+    }
+
+    .todo-container .todo-wrap {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
     }
 </style>
