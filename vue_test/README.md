@@ -165,25 +165,44 @@
 ## 全局事件總線(GlobalEventBus)
 - 1.一種組件間通信的方式，適用於<span style="color:red">任意組件間通信</span>。
 - 2.安裝全局事件總線: 
-   ```js
-   new Vue({
-   	...
-   	beforeCreate() {
-   		Vue.prototype.$bus = this //安裝全局事件總線，$bus 就是當前應用的 vm
-   	},
-       ...
-   }) 
-   ```
+    ```js
+    new Vue({
+        ...
+        beforeCreate() {
+              Vue.prototype.$bus = this //安裝全局事件總線，$bus 就是當前應用的 vm
+        },
+        ...
+    }) 
+    ```
 - 3.使用事件總線: 
-   - 1.接收資料: A 組件想接收資料，則在 A 組件中給 $bus 綁定自定義事件，事件的<span style="color:red">回調留在 A 組件自身。</span>
-      ```js
-      methods() {
-        demo(data){......}
-      }
-      ......
-      mounted() {
+    - 1.接收資料: A 組件想接收資料，則在 A 組件中給 $bus 綁定自定義事件，事件的<span style="color:red">回調留在 A 組件自身。</span>
+    ```js
+    methods() {
+        demo(data){...}
+    }
+    ...
+    mounted() {
         this.$bus.$on('xxxx', this.demo)
-      }
-      ```
-   - 2.提供資料: ```this.$bus.$emit('xxxx', 資料)```
+    }
+    ```
+    - 2.提供資料: ```this.$bus.$emit('xxxx', 資料)```
 - 4.最好在 beforeDestroy 鉤子中，用 $off 去解綁<span style="color:red">當前組件所用到的</span>事件。
+
+## 消息訂閱與發佈(pubsub)
+- 1.一種組件間通信的方式，適用於<span style="color:red">任意組件間通信</span>。
+- 2.使用步驟: 
+   - 1.安裝 pubsub: ```npm i pubsub-js```
+   - 2.導入: ```import pubsub from 'pubsub-js'```
+   - 3.接收資料: A 組件想接收資料，則在 A 組件中訂閱訊息，訂閱的<span style="color:red">回調留在 A 組件自身。</span>
+    ```js
+    methods() {
+        demo(data){...}
+    }
+    ...
+    mounted() {
+        this.pid = pubsub.subscribe('xxx', this.demo) // 訂閱訊息
+    }
+    ```
+   - 4.提供資料: ```pubsub.publish('xxx', 資料)```
+   - 5.最好在 beforeDestroy 鉤子中，用```PubSub.unsubscribe(pid)```去<span style="color:red">取消訂閱。</span>
+	

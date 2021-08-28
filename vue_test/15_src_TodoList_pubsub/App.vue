@@ -19,6 +19,11 @@
         name: "App",
         data() {
             return {
+                // todos: [
+                //     {id: '001', title: '吃飯', done: true},
+                //     {id: '002', title: '讀書', done: false},
+                //     {id: '003', title: '睡覺', done: true},
+                // ]
                 todos: JSON.parse(localStorage.getItem('todos')) || []
             }
         },
@@ -29,7 +34,7 @@
                 this.todos.unshift(x)
             },
             // 勾選 or 取消勾選一個 todo
-            checkTodo(todoId) {
+            checkTodo(_, todoId) {
                 this.todos.forEach((todo) => {
                     if (todo.id === todoId) {
                         todo.done = !todo.done
@@ -38,6 +43,7 @@
             },
             //
             deleteTodo(_, todoId) {
+                console.log(123, todoId)
                 this.todos = this.todos.filter((todo) => {
                     return todo.id !== todoId
                 })
@@ -53,15 +59,8 @@
                     return !todo.done
                 })
             },
-            killApp() {
+            killApp(){
                 this.$destroy()
-            },
-            updateTodo(todoId, title) {
-                this.todos.forEach((todo) => {
-                    if (todo.id === todoId) {
-                        todo.title = title
-                    }
-                })
             }
         },
         components: {
@@ -81,13 +80,11 @@
             }
         },
         mounted() {
-            this.$bus.$on('checkTodo', this.checkTodo)
-            this.$bus.$on('updateTodo', this.updateTodo)
-            this.deleteTodoId = pubsub.subscribe('deleteTodo', this.deleteTodo)
+            this.checkTodoId = pubsub.subscribe('checkTodo', this.checkTodo)
+            this.deleteTodoId = pubsub.subscribe('deleteTodo',  this.deleteTodo)
         },
         beforeDestroy() {
-            this.$bus.$off('checkTodo')
-            this.$bus.$off('updateTodo')
+            pubsub.unsubscribe(this.checkTodoId)
             pubsub.unsubscribe(this.deleteTodoId)
         }
     }
@@ -121,18 +118,6 @@
     .btn-danger:hover {
         color: #fff;
         background-color: #bd362f;
-    }
-
-    .btn-edit {
-        color: #fff;
-        background-color: skyblue;
-        border: 1px solid skyblue;
-        margin-right: 5px;
-    }
-
-    .btn-edit:hover {
-        color: #fff;
-        background-color: skyblue;
     }
 
     .btn:focus {

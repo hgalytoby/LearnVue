@@ -1,7 +1,7 @@
 <template>
     <div class="todo-header">
         <input type="text" placeholder="請輸入名稱，按下 Enter 確認" v-model.trim="title" @keyup.enter="add"/>
-        <!-- <input type="text" placeholder="請輸入名稱，按下 Enter 確認" v-model="title" @keyup.enter="add"/> -->
+        <!--        <input type="text" placeholder="請輸入名稱，按下 Enter 確認" v-model="title" @keyup.enter="add"/>-->
     </div>
 </template>
 
@@ -17,6 +17,7 @@
         },
         methods: {
             add() {
+                console.log(this.title)
                 if (this.title) {
                     this.$emit('addTodo', {id: nanoid(), title: this.title, done: false}, 1, 2, 3)
                     this.title = ''
