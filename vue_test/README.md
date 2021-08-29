@@ -191,9 +191,9 @@
 ## 消息訂閱與發佈(pubsub)
 - 1.一種組件間通信的方式，適用於<span style="color:red">任意組件間通信</span>。
 - 2.使用步驟: 
-   - 1.安裝 pubsub: ```npm i pubsub-js```
-   - 2.導入: ```import pubsub from 'pubsub-js'```
-   - 3.接收資料: A 組件想接收資料，則在 A 組件中訂閱訊息，訂閱的<span style="color:red">回調留在 A 組件自身。</span>
+    - 1.安裝 pubsub: ```npm i pubsub-js```
+    - 2.導入: ```import pubsub from 'pubsub-js'```
+    - 3.接收資料: A 組件想接收資料，則在 A 組件中訂閱訊息，訂閱的<span style="color:red">回調留在 A 組件自身。</span>
     ```js
     methods() {
         demo(data){...}
@@ -203,6 +203,33 @@
         this.pid = pubsub.subscribe('xxx', this.demo) // 訂閱訊息
     }
     ```
-   - 4.提供資料: ```pubsub.publish('xxx', 資料)```
-   - 5.最好在 beforeDestroy 鉤子中，用```PubSub.unsubscribe(pid)```去<span style="color:red">取消訂閱。</span>
-	
+    - 4.提供資料: ```pubsub.publish('xxx', 資料)```
+    - 5.最好在 beforeDestroy 鉤子中，用```PubSub.unsubscribe(pid)```去<span style="color:red">取消訂閱。</span>
+
+
+## nextTick
+- 1.語法: ```this.$nextTick(回調函數)```
+- 2.作用: 在下一次 DOM 更新結束後執行其指定的回調。
+- 3.什麼時候用: 當改變資料後，要基於更新後的新 DOM 進行某些操作時，要在 nextTick 所指定的回調函數中執行。
+
+## Vue封裝的過度與動畫
+- 1.作用: 在插入、更新或移除 DOM 元素時，在合適的時候給元素添加樣式類名。
+- 2.圖示: <img src="https://i.imgur.com/01dH0GS.png" style="width:60%"/>
+- 3.寫法: 
+    - 1.準備好樣式: 
+      - 元素進入的樣式: 
+        - 1.v-enter: 進入的起點
+        - 2.v-enter-active: 進入過程中
+        - 3.v-enter-to: 進入的終點
+      - 元素離開的樣式: 
+        - 1.v-leave: 離開的起點
+        - 2.v-leave-active: 離開過程中
+        - 3.v-leave-to: 離開的終點
+    - 2.使用```<transition>```包裹要過度的元素，並配置 name 屬性: 
+        ```vue
+        <transition name="hello">
+            <h1 v-show="isShow">你好啊！</h1>
+        </transition>
+        ```
+    - 3.備註: 若有多個元素需要過度，則需要使用: ```<transition-group>```，且每個元素都要指定```key```值。
+    - 4.第三方動畫庫: https://animate.style/
