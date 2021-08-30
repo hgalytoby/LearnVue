@@ -26,13 +26,37 @@ module.exports = {
 */
 
 module.exports = {
-  pages: {
-    index: {
-      // page 的入口
-      entry: 'src/main.js',
-      // entry: 'src/main_test_config.js',
+    pages: {
+        index: {
+            // page 的入口
+            entry: 'src/main.js',
+            // entry: 'src/main_test_config.js',
+        },
     },
-  },
-  // 關閉語法檢查
-  lintOnSave: false
+    // 關閉語法檢查
+    lintOnSave: false,
+
+    // 開啟代理伺服器 (方法1)
+    // devServer: {
+    //     proxy: 'http://localhost:5000'
+    // },
+    // 開啟代理伺服器 (方法2)
+    devServer: {
+        proxy: {
+            '/api1': {
+                target: 'http://localhost:5000',
+                pathRewrite: {
+                    '^/api1': '',
+                },
+                ws: true, // 用於支援 websocket
+                changeOrigin: true // 用於控制請求投中的 Host 值
+            },
+            '/api2': {
+                target: 'http://localhost:5001',
+                pathRewrite: {
+                    '^/api2': '',
+                },
+            },
+        }
+    }
 }

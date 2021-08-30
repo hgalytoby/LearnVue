@@ -217,14 +217,14 @@
 - 2.圖示: <img src="https://i.imgur.com/01dH0GS.png" style="width:60%"/>
 - 3.寫法: 
     - 1.準備好樣式: 
-      - 元素進入的樣式: 
-        - 1.v-enter: 進入的起點
-        - 2.v-enter-active: 進入過程中
-        - 3.v-enter-to: 進入的終點
-      - 元素離開的樣式: 
-        - 1.v-leave: 離開的起點
-        - 2.v-leave-active: 離開過程中
-        - 3.v-leave-to: 離開的終點
+        - 元素進入的樣式: 
+            - 1.v-enter: 進入的起點
+            - 2.v-enter-active: 進入過程中
+            - 3.v-enter-to: 進入的終點
+        - 元素離開的樣式: 
+            - 1.v-leave: 離開的起點
+            - 2.v-leave-active: 離開過程中
+            - 3.v-leave-to: 離開的終點
     - 2.使用```<transition>```包裹要過度的元素，並配置 name 屬性: 
         ```vue
         <transition name="hello">
@@ -233,3 +233,131 @@
         ```
     - 3.備註: 若有多個元素需要過度，則需要使用: ```<transition-group>```，且每個元素都要指定```key```值。
     - 4.第三方動畫庫: https://animate.style/
+    
+## vue腳手架配置代理
+### 方法一
+​在 vue.config.js 中增加如下設定: 
+```js
+devServer:{
+    proxy: "http://localhost:5000"
+}
+```
+
+- 說明: 
+    - 1.優點: 設定簡單，請求資源時直接發給前端(8080)即可。
+    - 2.缺點: 不能設定多個代理，不能靈活的控制請求是否走代理。
+    - 3.工作方式: 若按照上述設定代理，當請求了前端不存在的資源時，那麼該請求會轉發給伺服器 (優先匹配前端資源)
+
+### 方法二
+​編寫 vue.config.js 設定 具體代理規則: 
+```js
+module.exports = {
+    devServer: {
+        proxy: {
+            // 匹配所有以 '/api1'開頭的請求路徑
+            '/api1': {
+                target: 'http://localhost:5000',// 代理目標的基礎路徑
+                changeOrigin: true,
+                pathRewrite: {'^/api1': ''}
+        },
+            // 匹配所有以 '/api2'開頭的請求路徑
+            '/api2': {
+                target: 'http://localhost:5001',// 代理目標的基礎路徑
+                changeOrigin: true,
+                pathRewrite: {'^/api2': ''}
+            }
+        }
+    }
+}
+/*
+    changeOrigin 設定爲 true 時，伺服器收到的請求頭中的 host 爲: localhost:5000
+    changeOrigin 設定爲f false 時，伺服器收到的請求頭中的 host 爲: localhost:8080
+    changeOrigin 默認值爲 true
+*/
+```
+
+- 說明: 
+    - 1.優點: 可以設定多個代理，且可以靈活的控制請求是否走代理。
+    - 2.缺點: 設定略微繁瑣，請求資源時必須加前綴。
+
+## 插槽
+- 1.作用: 讓父組件可以向子組件指定位置插入 html 結構，也是一種組件間通信的方式，適用於 <strong style="color:red">父組件 ===> 子組件</strong> 。
+- 2.分類: 默認插槽、具名插槽、作用域插槽
+- 3.使用方式: 
+    - 1.默認插槽: 
+        ```vue
+        父組件中: 
+            <Category>
+             <div>html 結構1</div>
+            </Category>
+      
+        子組件中: 
+            <template>
+              <div>
+                 <!-- 定義插槽 -->
+                 <slot>插槽默認內容...</slot>
+              </div>
+            </template>
+        ```
+    - 2.具名插槽: 
+    ```vue
+    父組件中: 
+        <Category>
+            <template slot="center">
+                <div>html 結構1</div>
+            </template>
+            <template v-slot:footer>
+                <div>html 結構2</div>
+            </template>
+        </Category>
+  
+    子組件中: 
+        <template>
+            <div>
+                <!-- 定義插槽 -->
+                <slot name="center">插槽默認內容...</slot>
+                <slot name="footer">插槽默認內容...</slot>
+            </div>
+        </template>
+    ```
+    - 3. 作用域插槽: 
+        - 1.理解: <span style="color:red">資料在組件的自身，但根據資料生成的結構需要組件的使用者來決定。</span>（games 資料在 Category 組件中，但使用資料所遍歷出來的結構由 App 組件決定）
+        - 2. 具體編碼: 
+    ```vue
+    父組件中: 
+    <Category>
+        <template scope="scopeData">
+            <!-- 生成的是 ul 列表 -->
+            <ul>
+                <li v-for="g in scopeData.games" :key="g">{{ g }}</li>
+            </ul>
+        </template>
+    </Category>
+    
+    <Category>
+        <template slot-scope="scopeData">
+            <!-- 生成的是 h4 標題 -->
+            <h4 v-for="g in scopeData.games" :key="g">{{ g }}</h4>
+        </template>
+    </Category>
+  
+    子組件中: 
+    <template>
+        <div>
+            <slot :games="games"></slot>
+        </div>
+    </template>
+    
+    <script>
+        export default {
+            name: 'Category',
+            props: ['title'],
+            // 資料在子組件自身
+            data() {
+                return {
+                    games: ['白色相簿2', '穗翼', 'G弦上魔王', '命運石之門'],
+                }
+            },
+        }
+    </script>
+    ```
