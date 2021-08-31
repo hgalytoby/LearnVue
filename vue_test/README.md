@@ -361,3 +361,51 @@ module.exports = {
         }
     </script>
     ```
+
+## Vuex
+### 1.概念
+- 在 Vue 中實現集中式狀態(資料)管理的一個 Vue 插件，對 vue 應用中多個組件的共享狀態進行集中式的管理(讀/寫)，也是一種組件間通信的方式，且適用於任意組件間通信。
+
+### 2.何時使用？
+- 多個組件需要共享資料時
+
+### 3.搭建vuex環境
+- 1.創建文件: ```src/store/index.js```
+    ```js
+    //引入Vue核心庫
+    import Vue from 'vue'
+    //引入Vuex
+    import Vuex from 'vuex'
+    //應用Vuex插件
+    Vue.use(Vuex)
+    
+    //準備 actions 對象——響應組件中用戶的動作
+    const actions = {}
+    //準備 mutations 對象——修改 state 中的資料
+    const mutations = {}
+    //準備 state 對象——保存具體的資料
+    const state = {}
+    
+    //創建並暴露store
+    export default new Vuex.Store({
+        actions,
+        mutations,
+        state
+    })
+    ```
+
+- 2.在```main.js```中創建 vm 時傳入```store```設定值
+
+    ```js
+    ...
+    //引入store
+    import store from './store'
+    ...
+    
+    //創建vm
+    new Vue({
+        el:'#app',
+        render: h => h(App),
+        store
+    })
+    ```

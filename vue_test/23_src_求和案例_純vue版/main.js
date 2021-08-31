@@ -4,8 +4,6 @@ import Vue from 'vue'
 import App from './App.vue'
 // 引入套件
 import VueResource from 'vue-resource'
-// 引入 store
-import store from './store'
 
 // 關閉 vue 生產提示
 Vue.config.productionTip = false
@@ -16,7 +14,6 @@ Vue.use(VueResource)
 new Vue({
     el: '#app',
     render: h => h(App),
-    store,
     beforeCreate() {
         Vue.prototype.$bus = this
     }

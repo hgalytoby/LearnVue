@@ -11,9 +11,6 @@
         name: "App",
         components: {Count},
         methods: {},
-        mounted() {
-            console.log('App', this)
-        }
     }
 </script>
 
