@@ -1,7 +1,6 @@
 <template>
     <div>
         <h1>當前求和: {{ $store.state.sum }}</h1>
-        <h3>當前求和: {{ $store.getters.bigSum }}</h3>
         <select v-model.number="n">
             <option value="1">1</option>
             <option value="2">2</option>

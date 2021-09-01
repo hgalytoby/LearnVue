@@ -409,3 +409,64 @@ module.exports = {
         store
     })
     ```
+  
+### 4.基本使用
+- 1.初始化資料、設定```actions```、設定```mutations```，操作文件```store.js```
+    ```js
+    //引入 Vue
+    import Vue from 'vue'
+    //引入Vuex
+    import Vuex from 'vuex'
+    //引用Vuex
+    Vue.use(Vuex)
+    
+    const actions = {
+    //響應組件中加的動作
+    jia(context, value){
+        // console.log('actions 中的 jia 被調用了', miniStore, value)
+        context.commit('JIA',value)
+        },
+    }
+    
+    const mutations = {
+    // 執行加
+    JIA(state, value){
+        // console.log('mutations 中的 JIA 被調用了', state, value)
+        state.sum += value
+        }
+    }
+    
+    // 初始化資料
+    const state = {
+        sum: 0
+    }
+    
+    // 創建並暴露 store
+    export default new Vuex.Store({
+        actions,
+        mutations,
+        state,
+    })
+    ```
+- 2.組件中讀取 vuex 中的資料: ```$store.state.sum```
+- 3.組件中修改 vuex 中的資料: ```$store.dispatch('action 中的方法名', 資料)``` 或 ```$store.commit('mutations 中的方法名', 資料)```
+   >  備註: 若沒有網絡請求或其他業務邏輯，組件中也可以越過 actions，即不寫```dispatch```，直接編寫```commit```
+
+### 5.getters的使用
+- 1.概念: 當 state 中的資料需要經過加工後再使用時，可以使用 getters 加工。
+- 2.在```store.js```中追加```getters```設定
+    ```js
+    ...
+    const getters = {
+        bigSum(state){
+            return state.sum * 10
+        }
+    }
+    
+    // 創建並暴露 store
+    export default new Vuex.Store({
+        ...
+        getters
+    })
+   ```
+- 3.組件中讀取資料: ```$store.getters.bigSum```

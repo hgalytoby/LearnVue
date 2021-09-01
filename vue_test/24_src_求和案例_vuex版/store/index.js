@@ -49,18 +49,9 @@ const state = {
     sum: 0
 }
 
-// 準備 getters 用於將 state 中的資料做加工處理
-const getters = {
-    bigSum(state){
-        return state.sum * 10
-    }
-}
-
-
 // 創建 store 並暴露 store
 export default new Vuex.Store({
     actions,
     mutations,
     state,
-    getters,
 })
