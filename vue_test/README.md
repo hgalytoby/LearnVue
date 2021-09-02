@@ -470,3 +470,47 @@ module.exports = {
     })
    ```
 - 3.組件中讀取資料: ```$store.getters.bigSum```
+
+### 6.四個 map 方法的使用
+- 1.<strong>mapState 方法: </strong>用於幫助我們映射```state```中的資料爲計算屬性
+    ```js
+    computed: {
+        //藉助 mapState 生成計算屬性: sum、school、subject(對象寫法)
+        ...mapState({sum: 'sum', school: 'school', subject: 'subject'}),
+            
+        //藉助 mapState 生成計算屬性: sum、school、subject(陣列寫法)
+        ...mapState(['sum', 'school', 'subject']),
+    },
+    ```
+- 2.<strong>mapGetters 方法: </strong>用於幫助我們映射```getters```中的資料爲計算屬性
+    ```js
+    computed: {
+        //藉助 mapGetters 生成計算屬性: bigSum(對象寫法)
+        ...mapGetters({bigSum: 'bigSum'}),
+        
+        //藉助 mapGetters 生成計算屬性: bigSum(資料寫法)
+        ...mapGetters(['bigSum'])
+    },
+    ```
+- 3. <strong>mapActions 方法: </strong>用於幫助我們生成與```actions```對話的方法，即: 包含```$store.dispatch(xxx)```的函數
+    ```js
+    methods:{
+        //藉助 mapActions 生成: incrementOdd、incrementWait(對象形式)
+        ...mapActions({incrementOdd: 'jiaOdd', incrementWait: 'jiaWait'})
+        
+        //藉助 mapActions 生成: incrementOdd、incrementWait(陣列形式)
+        ...mapActions(['jiaOdd', 'jiaWait'])
+    }
+    ```
+- 4. <strong>mapMutations 方法: </strong>用於幫助我們生成與```mutations```對話的方法，即: 包含```$store.commit(xxx)```的函數
+    ```js
+    methods:{
+        //藉助 mapActions 生成: increment、decrement(對象形式)
+        ...mapMutations({increment: 'JIA',decrement: 'JIAN'}),
+        
+        //藉助 mapMutations 生成: JIA、JIAN(對象形式)
+        ...mapMutations(['JIA', 'JIAN']),
+    }
+    ```
+
+> 備註: mapActions 與 mapMutations 使用時，若需要傳遞參數需要: 在模板中綁定事件時傳遞好參數，否則參數是事件對象。
