@@ -17,8 +17,8 @@
         <button @click="JIAN(n)">-</button>
         <button @click="incrementOdd(n)">當前求和為奇數在 +</button>
         <button @click="incrementWait(n)">等一等在 +</button>
-        <button @click="incrementOdd(n)">當前求和為奇數在 +</button>
-        <button @click="incrementWait(n)">等一等在 +</button>
+        <button @click="jiaOdd(n)">當前求和為奇數在 +</button>
+        <button @click="jiaWait(n)">等一等在 +</button>
     </div>
 </template>
 
