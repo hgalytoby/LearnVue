@@ -512,5 +512,68 @@ module.exports = {
         ...mapMutations(['JIA', 'JIAN']),
     }
     ```
-
+  
 > 備註: mapActions 與 mapMutations 使用時，若需要傳遞參數需要: 在模板中綁定事件時傳遞好參數，否則參數是事件對象。
+
+### 7.模塊化+命名空間
+- 1.目的: 讓程式碼更好維護，讓多種資料分類更加明確。
+- 2.修改```store.js```
+   ```js
+    const countAbout = {
+        namespaced: true, // 開啓命名空間
+        state: {x: 1},
+        mutations: { ... },
+        actions: { ... },
+        getters: {
+        bigSum(state) {
+            return state.sum * 10
+            }
+        }
+    }
+    
+    const personAbout = {
+        namespaced: true, // 開啓命名空間
+        state: { ... },
+        mutations: { ... },
+        actions: { ... }
+    }
+    
+    const store = new Vuex.Store({
+        modules: {
+            countAbout,
+            personAbout
+        }
+    })
+    ```
+
+- 3.開啓命名空間後，組件中讀取 state 資料: 
+   ```js
+   // 方式一: 自己直接讀取
+   this.$store.state.personAbout.list
+   // 方式二: 藉助 mapState 讀取: 
+   ...mapState('countAbout', ['sum', 'school', 'subject']),
+   ```
+
+- 4.開啓命名空間後，組件中讀取 getters 資料: 
+   ```js
+   // 方式一: 自己直接讀取
+   this.$store.getters['personAbout/firstPersonName']
+   // 方式二: 藉助 mapGetters 讀取: 
+   ...mapGetters('countAbout',['bigSum'])
+   ```
+
+- 5.開啓命名空間後，組件中調用 dispatch
+   ```js
+   // 方式一: 自己直接 dispatch
+   this.$store.dispatch('personAbout/addPersonWang', person)
+   // 方式二: 藉助 mapActions: 
+   ...mapActions('countAbout', {incrementOdd: 'jiaOdd', incrementWait: 'jiaWait'})
+   ```
+  
+- 6.開啓命名空間後，組件中調用 commit
+   ```js
+   // 方式一: 自己直接 commit
+   this.$store.commit('personAbout/ADD_PERSON', person)
+   // 方式二: 藉助 mapMutations: 
+   ...mapMutations('countAbout', {increment:'JIA', decrement: 'JIAN'}),
+   ```

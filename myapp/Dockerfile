@@ -24,9 +24,11 @@ COPY test.conf /etc/nginx/conf.d/default.conf
 # 下指令 service nginx start，啟動 nginx，因為用陣列包著指令，所以空白處分隔。
 CMD ["service", "nginx", "start"]
 # 下指令 nginx -g daemon off;，防止 Docker 一起動 nginx 就關閉的問題，因為用陣列包著指令，所以空白處分隔。
-# CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]
 # EXPOSE 導出 port
 # EXPOSE 8080
 # 這段是網路 Copy 來的，主要是 heroku 部屬網頁時會隨機分發 port ，看起來是抓到 heroku 給的 port值，再將 port 給 default.conf。
-CMD /bin/bash -c "envsubst '\$PORT' < /etc/nginx/conf.d/default.conf > /etc/nginx/conf.d/default.conf" && nginx -g 'daemon off;'
+# CMD /bin/bash -c "envsubst '\$PORT' < /etc/nginx/conf.d/default.conf > /etc/nginx/conf.d/default.conf" && nginx -g 'daemon off;'
 
+
+# docker build  -t myapp .
