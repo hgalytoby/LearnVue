@@ -577,3 +577,47 @@ module.exports = {
    // 方式二: 藉助 mapMutations: 
    ...mapMutations('countAbout', {increment:'JIA', decrement: 'JIAN'}),
    ```
+
+## 路由
+- 1.理解: 一個路由(route)就是一組映射關係(key - value)，多個路由需要路由器(router)進行管理。
+- 2.前端路由: key 是路徑，value 是組件。
+
+### 1.基本使用
+- 1.安裝vue-router，命令: ```npm i vue-router```
+- 2.應用插件: ```Vue.use(VueRouter)```
+- 3.編寫 router 設定項:
+   ```js
+    //引入VueRouter
+    import VueRouter from 'vue-router'
+    //引入組件
+    import About from '../components/About'
+    import Home from '../components/Home'
+    
+    //創建 router 實例對象，去管理一組一組的路由規則
+    const router = new VueRouter({
+        routes:[
+            {
+                path:'/about',
+                component:About
+            },
+            {
+                path:'/home',
+                component:Home
+            }
+        ]
+    })
+    
+    //暴露router
+    export default router
+    ```
+
+- 4.實現切換(active-class 可設定高亮樣式)
+    ```vue
+    <router-link active-class="active" to="/about">About</router-link>
+    ```
+
+- 5.指定展示位置
+
+    ```vue
+    <router-view></router-view>
+    ```
