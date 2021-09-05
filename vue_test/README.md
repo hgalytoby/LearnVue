@@ -138,7 +138,7 @@
     - 4. ```xxxxxStorage.clear()```
         - 該方法會清空存儲中的所有資料。
 - 4. 備註: 
-    - 1.SessionStorage 存儲的內容會隨着瀏覽器視窗關閉而消失。
+    - 1.SessionStorage 存儲的內容會隨著瀏覽器視窗關閉而消失。
     - 2.LocalStorage 存儲的內容，需要手動清除才會消失。
     - 3.```xxxxxStorage.getItem(xxx)```如果 xxx 對應的 value 獲取不到，那麼 getItem 的返回值是null。
     - 4.```JSON.parse(null)```的結果依然是 null。
@@ -621,3 +621,43 @@ module.exports = {
     ```vue
     <router-view></router-view>
     ```
+  
+### 2.幾個注意點
+- 1.路由組件通常存放在```pages```文件夾，一般組件通常存放在```components```文件夾。
+- 2.通過切換，"隱藏"了的路由組件，默認是被銷毀掉的，需要的時候再去掛載。
+- 3.每個組件都有自己的```$route```屬性，裡面儲存著自己的路由訊息。
+- 4.整個應用只有一個 router，可以通過組件的```$router```屬性獲取到。
+
+### 3.多級路由（多級路由）
+- 1.設定路由規則，使用 children 設定: 
+    ```
+    routes: [
+        {
+            path: '/about',
+            component: About,
+        },
+        {
+            path: '/home',
+            component: Home,
+            // 通過 children 設定子級路由
+            children: [ 
+            {
+                // 此處一定不要寫: /news
+                path: 'news', 
+                component: News
+            },
+            {
+                // 此處一定不要寫: /message
+                path: 'message',
+                component: Message
+            }
+            ]
+        }
+    ]
+    ```
+
+- 2.跳轉(要寫完整路徑):
+    ```vue
+    <router-link to="/home/news">News</router-link>
+    ```
+
