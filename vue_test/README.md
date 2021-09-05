@@ -661,3 +661,148 @@ module.exports = {
     <router-link to="/home/news">News</router-link>
     ```
 
+### 4.路由的query參數
+
+1. 傳遞參數
+
+   ```vue
+   <!-- 跳轉並攜帶query參數，to的字符串寫法 -->
+   <router-link :to="/home/message/detail?id=666&title=你好">跳轉</router-link>
+   				
+   <!-- 跳轉並攜帶query參數，to的對象寫法 -->
+   <router-link 
+   	:to="{
+   		path: '/home/message/detail',
+   		query: {
+            id:666,
+            title:'你好'
+   		}
+   	}"
+   >跳轉</router-link>
+   ```
+
+2. 接收參數: 
+
+   ```js
+   $route.query.id
+   $route.query.title
+   ```
+
+### 5.命名路由
+- 1.作用: 可以簡化路由的跳轉。
+- 2.如何使用
+   - 1. 給路由命名: 
+    ```
+    {
+    path: '/demo',
+    component: Demo,
+    children: [
+            {
+                path: 'test',
+                component: Test,
+                children: [
+                    {
+                        // 給路由命名
+                        name: 'hello' 
+                        path: 'welcome',
+                        component: Hello,
+                    }
+                ]
+            }
+        ]
+    }
+    ```
+
+    - 2.簡化跳轉: 
+    ```vue
+    <!--簡化前，需要寫完整的路徑 -->
+    <router-link to="/demo/test/welcome">跳轉</router-link>
+    
+    <!--簡化後，直接通過名字跳轉 -->
+    <router-link :to="{name: 'hello'}">跳轉</router-link>
+    
+    <!--簡化寫法配合傳遞參數 -->
+    <router-link 
+        :to="{
+            name: 'hello',
+            query: {
+            id: 666,
+            title: '你好'
+        }
+    }"
+    >跳轉</router-link>
+    ```
+
+### 6.路由的params參數
+- 1.設定路由，聲明接收 params 參數
+   ```
+    {
+        path: '/home',
+        component: Home,
+        children: [
+            {
+                path: 'news',
+                component: News
+            },
+            {
+                component: Message,
+                children: [
+                    {
+                        name: 'detail',
+                        // 使用佔位符聲明接收 params 參數
+                        path: 'detail/:id/:title', 
+                        component: Detail
+                    }
+                ]
+            }
+        ]
+    }
+    ```
+- 2.傳遞參數
+    ```vue
+    <!-- 跳轉並帶著 params 參數，to 的字符串寫法 -->
+    <router-link :to="/home/message/detail/666/你好">跳轉</router-link>
+    
+    <!-- 跳轉並帶著 params 參數，to 的對象寫法 -->
+    <router-link 
+        :to="{
+            name: 'detail',
+            params: {
+                id: 666,
+                title: '你好'
+            }
+        }"
+    >跳轉</router-link>
+    ```
+    
+    > 特別注意: 路由帶著 params 參數時，若使用 to 的對象寫法，則不能使用 path 設定項，必須使用 name 設定！
+
+- 3.接收參數: 
+    ```js
+    $route.params.id
+    $route.params.title
+    ```
+  
+### 7.路由的props配置
+- ​作用: 讓路由組件更方便的收到參數
+    ```js
+    {
+        name: 'detail',
+        path: 'detail/:id',
+        component: Detail,
+    
+        //第一種寫法: props 值爲對象，該對象中所有的 key-value 的組合最終都會通過 props 傳給 Detail 組件
+        // props:{a: 900}
+        
+        //第二種寫法: props 值爲布林值，布林值爲 true，則把路由收到的所有 params 參數通過 props 傳給 Detail 組件
+        // props: true
+    
+        //第三種寫法: props 值爲函數，該函數返回的對象中每一組 key-value 都會通過 props 傳給 Detail 組件
+        props(route) {
+            return {
+                id: route.query.id,
+                title: route.query.title
+            }
+        }
+    }
+    ```
