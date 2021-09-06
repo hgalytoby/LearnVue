@@ -662,31 +662,28 @@ module.exports = {
     ```
 
 ### 4.路由的query參數
-
-1. 傳遞參數
-
-   ```vue
-   <!-- 跳轉並攜帶query參數，to的字符串寫法 -->
-   <router-link :to="/home/message/detail?id=666&title=你好">跳轉</router-link>
-   				
-   <!-- 跳轉並攜帶query參數，to的對象寫法 -->
-   <router-link 
-   	:to="{
-   		path: '/home/message/detail',
-   		query: {
-            id:666,
-            title:'你好'
-   		}
-   	}"
-   >跳轉</router-link>
-   ```
-
-2. 接收參數: 
-
-   ```js
-   $route.query.id
-   $route.query.title
-   ```
+- 1.傳遞參數
+    ```vue
+    <!-- 跳轉並攜帶 query 參數，to 的字符串寫法 -->
+    <router-link :to="/home/message/detail?id=666&title=你好">跳轉</router-link>
+    
+    <!-- 跳轉並攜帶 query 參數，to 的對象寫法 -->
+    <router-link 
+        :to="{
+            path: '/home/message/detail',
+            query: {
+                id: 666,
+                title: '你好'
+            }
+        }"
+    >跳轉</router-link>
+    ```
+  
+- 2.接收參數: 
+    ```js
+    $route.query.id
+    $route.query.title
+    ```
 
 ### 5.命名路由
 - 1.作用: 可以簡化路由的跳轉。
@@ -806,3 +803,50 @@ module.exports = {
         }
     }
     ```
+
+### 8.```<router-link>```的 replace 屬性
+- 1.作用: 控制路由跳轉時操作瀏覽器歷史記錄的模式
+- 2.瀏覽器的歷史記錄有兩種寫入方式: 分別爲```push```和```replace```，```push```是追加歷史記錄，```replace```是替換當前記錄。路由跳轉時候默認爲```push```
+- 3.如何開啓```replace```模式: ```<router-link replace .......>News</router-link>```
+
+### 9.編程式路由導航
+- 1.作用: 不借助```<router-link> ```實現路由跳轉，讓路由跳轉更加靈活
+- 2.具體編碼: 
+    ```js
+    // $router 的兩個 API
+    this.$router.push({
+        name: 'xiangqing',
+        params: {
+            id: xxx,
+            title: xxx
+        }
+    })
+    
+    this.$router.replace({
+        name: 'xiangqing',
+        params: {
+            id: xxx,
+            title: xxx
+        }
+    })
+    this.$router.forward() // 前進
+    this.$router.back() // 後退
+    this.$router.go() // 可前進也可後退
+    ```
+  
+### 10.緩存路由組件
+- 1.作用: 讓不顯示的路由組件保持掛載，不被銷毀。
+- 2.具體編碼: 
+    ```vue
+    <keep-alive include="News"> 
+        <router-view></router-view>
+    </keep-alive>
+    ```
+- 3.緩存多個路由組件
+    <!-- <keep-alive :include="['News', 'Message']"></keep-alive> -->
+    
+### 11.兩個新的生命週期鉤子
+- 1.作用: 路由組件所獨有的兩個鉤子，用於捕獲路由組件的啟用狀態。
+- 2.具體名字: 
+    - 1.```activated```路由組件被啟用時觸發。
+    - 2.```deactivated```路由組件關閉時觸發。

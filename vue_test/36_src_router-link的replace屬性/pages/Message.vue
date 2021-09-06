@@ -19,7 +19,7 @@
                     name: 'detail',
                     query: {
                         id: m.id,
-                        title: m.title
+                        title: m.title,
                         }
                     }">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

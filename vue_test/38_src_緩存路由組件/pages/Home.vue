@@ -12,7 +12,11 @@
                     </router-link>
                 </li>
             </ul>
-            <keep-alive :include="['News', 'Message']">
+            <!-- 緩存多個路由組件 -->
+            <!-- <keep-alive :include="['News', 'Message']"></keep-alive> -->
+
+            <!-- 緩存一個路由組件 -->
+            <keep-alive include="News">
                 <router-view></router-view>
             </keep-alive>
 
