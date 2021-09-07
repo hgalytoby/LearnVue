@@ -1,42 +1,38 @@
 <template>
     <div>
-        <div class="row">
-            <Banner></Banner>
-        </div>
-        <div class="row">
-            <div class="col-xs-2 col-xs-offset-2">
-                <div class="list-group">
-                    <!-- 原始 html 中使用 a 標籤實現葉面跳轉 -->
-                    <!-- <a class="list-group-item active" href="./about.html">About</a>-->
-                    <!-- <a class="list-group-item" href="./home.html">Home</a>-->
-
-                    <!-- Vue 中借住 router-link 標籤實現路由的切換 -->
-                    <router-link class="list-group-item" active-class="active" :to="{name: 'about'}">About</router-link>
-                    <router-link class="list-group-item" active-class="active" to="/home">Home</router-link>
-                </div>
-            </div>
-            <div class="col-xs-6">
-                <div class="panel">
-                    <div class="panel-body">
-                        <!-- 指定組件呈現的位置 -->
-                        <router-view></router-view>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <button>原生的按鈕</button>
+        <input type="text">
+        <el-row>
+            <el-button>默認按鈕</el-button>
+            <el-button type="primary">主要按鈕</el-button>
+            <el-button type="success">成功按鈕</el-button>
+            <el-button type="info">訊息按鈕</el-button>
+            <el-button type="warning">警告按鈕</el-button>
+            <el-button type="danger">危險按鈕</el-button>
+        </el-row>
+        <el-date-picker
+                v-model="value1"
+                type="date"
+                placeholder="選擇日期">
+        </el-date-picker>
+        <el-row>
+            <el-button icon="el-icon-search" circle></el-button>
+            <el-button type="primary" icon="el-icon-edit" circle></el-button>
+            <el-button type="success" icon="el-icon-check" circle></el-button>
+            <el-button type="info" icon="el-icon-message" circle></el-button>
+            <el-button type="warning" icon="el-icon-star-off" circle></el-button>
+            <el-button type="danger" icon="el-icon-delete" circle></el-button>
+        </el-row>
     </div>
 </template>
 
 <script>
-
-    import Banner from "./components/Banner";
-
     export default {
         name: "App",
         methods: {},
         mounted() {
         },
-        components: {Banner}
+        components: {}
     }
 </script>
 

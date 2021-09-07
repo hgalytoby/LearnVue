@@ -884,3 +884,51 @@ module.exports = {
         }
     })
     ```
+- 4.獨享守衛:
+    ```js
+    beforeEnter(to, from, next) {
+        console.log('beforeEnter', to, from)
+        if (to.meta.isAuth) {
+            // 判斷當前路由是否需要進行權限控制  
+            if (localStorage.getItem('school') === 'dudulu') {
+                next()
+            } else {
+                alert('暫無權限查看')
+                // next({name: 'about'})
+            }
+        } else {
+            next()
+        }
+    }
+    ```
+- 5.組件內守衛: 
+    ```js
+    // 進入守衛: 通過路由規則，進入該組件時被調用
+    beforeRouteEnter (to, from, next) {
+    },
+    // 離開守衛: 通過路由規則，離開該組件時被調用
+    beforeRouteLeave (to, from, next) {
+    }
+    ```
+  
+### 13.路由器的兩種工作模式
+- 1.對於一個 url 來說，什麼是 hash 值? —— # 及其後面的內容就是 hash 值。
+- 2.hash 值不會包含在 HTTP 請求中，即: hash 值不會帶給伺服器。
+- 3.hash 模式: 
+    - 1.網址中永遠帶着 # 號，不美觀 。
+    - 2.若以後將網址通過第三方手機 app 分享，若 app 校驗嚴格，則地址會被標記爲不合法。
+    - 3.兼容性較好。
+- 4.history 模式: 
+    - 1.網址乾淨，美觀 。
+    - 2.兼容性和 hash 模式相比略差。
+    - 3.應用部署上線時需要後端人員支援，解決重新整理頁面伺服器 404 的問題。
+   
+    
+### 14.Vue UI 組件庫
+- 1.手機端常用 UI 組件庫
+    - 1.Vant https://youzan.github.io/vant
+    - 2.Cube UI https://didi.github.io/cube-ui
+    - 3.Mint UI http://mint-ui.github.io
+- 2.PC 端常用 UI 組件庫
+    - 1.Element UI https://element.eleme.cn
+    - 2.IView

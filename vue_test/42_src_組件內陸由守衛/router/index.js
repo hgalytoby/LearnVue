@@ -14,6 +14,7 @@ const router = new VueRouter({
             path: '/about',
             component: About,
             meta: {
+                isAuth: true,
                 title: '關於',
             },
         },
@@ -33,6 +34,17 @@ const router = new VueRouter({
                         isAuth: true,
                         title: '新聞',
                     },
+                    // beforeEnter: (to, from, next) => {
+                    //     if (to.meta.isAuth) {
+                    //         if (localStorage.getItem('school') === 'dudulu') {
+                    //             next()
+                    //         } else {
+                    //             alert('學校名字不是 dudulu 不能看!')
+                    //         }
+                    //     } else {
+                    //         next()
+                    //     }
+                    // }
                 },
                 {
                     name: 'message',
@@ -81,29 +93,29 @@ const router = new VueRouter({
     ]
 })
 
-// 全局前置路由守衛 => 初始化的時候被調用，每次路由切換之前被調用
-router.beforeEach((to, from, next) => {
-    console.log('router beforeEach')
-    console.log('to =>', to)
-    console.log('from =>', from)
-    console.log('next =>', next)
-    console.log(['news', 'message'].includes(to.name))
-    // 判斷是否需要鑒權
-    if (to.meta.isAuth) {
-        if (localStorage.getItem('school') === 'dudulu1') {
-            next()
-        } else {
-            alert('學校名字不是 dudulu 不能看!')
-        }
-    } else {
-        next()
-    }
-})
-
+// // 全局前置路由守衛 => 初始化的時候被調用，每次路由切換之前被調用
+// router.beforeEach((to, from, next) => {
+//     console.log('router beforeEach')
+//     console.log('to =>', to)
+//     console.log('from =>', from)
+//     console.log('next =>', next)
+//     console.log(['news', 'message'].includes(to.name))
+//     // 判斷是否需要鑒權
+//     if (to.meta.isAuth) {
+//         if (localStorage.getItem('school') === 'dudulu1') {
+//             next()
+//         } else {
+//             alert('學校名字不是 dudulu 不能看!')
+//         }
+//     } else {
+//         next()
+//     }
+// })
+//
 // 全局後置路由守衛 => 初始化的時候被調用，每次路由切換之後被調用
-router.afterEach((to, from,) => {
-    document.title = to.meta.title || 'dudulu'
-    console.log(to, from)
-})
+// router.afterEach((to, from,) => {
+//     document.title = to.meta.title || 'dudulu'
+//     console.log(to, from)
+// })
 
 export default router
