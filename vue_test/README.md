@@ -850,3 +850,37 @@ module.exports = {
 - 2.具體名字: 
     - 1.```activated```路由組件被啟用時觸發。
     - 2.```deactivated```路由組件關閉時觸發。
+
+### 12.路由守衛
+- 1.作用: 對路由進行權限控制
+- 2.分類: 全局守衛、獨享守衛、組件內守衛
+- 3.全局守衛:
+    ```js
+    // 全局前置守衛: 初始化時執行、每次路由切換前執行
+    router.beforeEach((to, from, next)=>{
+        console.log('beforeEach', to, from)
+        // 判斷當前路由是否需要進行權限控制
+        if (to.meta.isAuth) { 
+            // 權限控制的具體規則
+            if (localStorage.getItem('school') === 'dudulu') { 
+                next() // 通過
+            } else {
+                alert('暫無權限查看')
+                // next({name: 'about'})
+            }
+        } else {
+            next() // 通過
+        }
+    })
+    
+    // 全局後置守衛: 初始化時執行、每次路由切換後執行
+    router.afterEach((to, from)=>{
+        console.log('afterEach', to, from)
+        if (to.meta.title) { 
+            // 修改網頁的 title
+            document.title = to.meta.title 
+        } else {
+            document.title = 'vue_test'
+        }
+    })
+    ```
