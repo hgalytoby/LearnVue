@@ -3,7 +3,6 @@
     <h2>姓名: {{ name }}</h2>
     <h2>年齡: {{ age }}</h2>
     <h2>性別: {{ sex }}</h2>
-    <h2>a 的值是: {{ a }}</h2>
     <button @click="sayHello">說話(Vue3 設定的 => sayHello)</button>
     <br>
     <br>
@@ -25,7 +24,6 @@
         data() {
             return {
                 sex: '男',
-                a: 100,
             }
         },
         methods: {
@@ -44,7 +42,6 @@
             // 資料
             const name = 'dudulu'
             const age = 27
-            const a = 200
 
             function sayHello() {
                 alert(`我叫${name}, 我${age}歲了， 你好阿!`)
