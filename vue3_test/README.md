@@ -95,3 +95,20 @@ npm run dev
         - 但在 setup 中<strong style="color:#DD5145">不能訪問到</strong>Vue2.x設定(data、methos、computed...)。
         - 如果有重名，setup優先。
     - 2.setup 不能是一個 async 函數，因爲返回值不再是 return 的對象, 而是 promise, 模板看不到 return 對象中的屬性。(後期也可以返回一個 Promise 實例，但需要 Suspense 和異步組件的配合)
+
+##  2.ref函數
+- 作用: 定義一個響應式的資料
+- 語法: ```const xxx = ref(initValue)``` 
+  - 創建一個包含響應式資料的<strong style="color:#DD5145">引用對象(reference對象，簡稱 ref 對象）</strong>。
+  - JS中操作資料: ```xxx.value```
+  - 模板中讀取資料: 不需要.value，直接: ```<div>{{xxx}}</div>```
+- 備註:
+  - 接收的資料可以是: 基本類型、也可以是對象類型。
+  - 基本類型的資料: 響應式依然是靠``Object.defineProperty()``的```get```與```set```完成的。
+  - 對象類型的資料: 內部 <i style="color:gray;font-weight:bold">"求助"</i> 了Vue3.0中的一個新函數—— ```reactive```函數。
+
+## 3.reactive函數
+- 作用: 定義一個<strong style="color:#DD5145">對象類型</strong>的響應式資料（基本類型不要用它，要用```ref```函數）
+- 語法: ```const 代理對象= reactive(源對象)```接收一個對象(或陣列)，返回一個<strong style="color:#DD5145">代理對象(Proxy 的實例對象，簡稱 proxy 對象)</strong>
+- reactive 定義的響應式資料是"深層次的"。
+- 內部基於 ES6 的 Proxy 實現，通過代理對象操作源對象內部資料進行操作。

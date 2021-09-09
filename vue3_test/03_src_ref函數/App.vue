@@ -3,13 +3,12 @@
     <h2>姓名: {{ name }}</h2>
     <h2>年齡: {{ age }}</h2>
     <h3>工作: {{ job.type }}</h3>
-    <h3>測試資料: {{ job.a.b.c }}</h3>
-    <h3>愛好: {{ job.hobby }}</h3>
+    <h3>年齡: {{ job.salary }}</h3>
     <button @click="changeInfo">修改人的訊息</button>
 </template>
 
 <script>
-    import {ref, reactive} from 'vue'
+    import {ref} from 'vue'
 
     export default {
         name: 'App',
@@ -17,32 +16,23 @@
             // 資料
             let name = ref('dudulu')
             let age = ref(27)
-            let job = reactive({
+            let job = ref({
                 type: '後端工程師',
                 salary: '44k',
-                a: {
-                    b: {
-                        c: 100,
-                    },
-                },
             })
-            let hobby = ['吃飯', '睡覺', '玩電腦']
 
             function changeInfo() {
                 name.value = '嘟嘟嚕'
                 age.value = 28
-                job.type = '全端工程師'
-                job.salary = '60k'
-                job.a.b.c = 999
-                console.log(job)
+                job.value.type = '全端工程師'
+                job.value.salary = '60k'
             }
-
+            
             // 返回一個對象(常用)
             return {
                 name,
                 age,
                 job,
-                hobby,
                 changeInfo,
             }
         },
