@@ -1,14 +1,11 @@
 <template>
     <h1>一個人的訊息</h1>
-    <h2 v-show="person.name">姓名: {{ person.name }}</h2>
+    <h2>姓名: {{ person.name }}</h2>
     <h2>年齡: {{ person.age }}</h2>
-    <h2 v-show="person.sex">性別: {{ person.sex }}</h2>
     <h3>工作: {{ person.job.type }}</h3>
     <h3>測試資料: {{ person.job.a.b.c }}</h3>
     <h3>愛好: {{ person.hobby }}</h3>
     <button @click="changeInfo">修改人的訊息</button>
-    <button @click="addSex">增加一個 sex 屬性</button>
-    <button @click="deleteName">刪除一個 name 屬性</button>
 </template>
 
 <script>
@@ -43,20 +40,10 @@
                 person.hobby[0] = '學習'
             }
 
-            function addSex() {
-                person.sex = '男'
-            }
-
-            function deleteName() {
-                delete person.name
-            }
-
             // 返回一個對象(常用)
             return {
                 person,
                 changeInfo,
-                addSex,
-                deleteName,
             }
         },
     }
