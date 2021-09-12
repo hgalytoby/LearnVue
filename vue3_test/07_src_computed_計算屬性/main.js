@@ -6,7 +6,7 @@ import App from './App.vue'
 
 // 創建應用實例對象 => app(類似於之前 Vue2 中的 vm，但 app 比 vm 更 "輕")
 const app = createApp(App)
-
+console.log(app)
 // 掛載
 app.mount('#app')
 
