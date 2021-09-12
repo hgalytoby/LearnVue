@@ -258,3 +258,25 @@ npm run dev
         console.log('watchEffect 設定的回調執行了')
     })
     ```
+  
+## 8.生命週期
+<div style="border:1px solid black;width:380px;float:left;margin-right:20px;"><strong>vue2.x的生命週期</strong><img src="https://cn.vuejs.org/images/lifecycle.png" alt="lifecycle_2" style="zoom:33%;width:1200px" /></div><div style="border:1px solid black;width:510px;height:985px;float:left"><strong>vue3.0的生命週期</strong><img src="https://v3.cn.vuejs.org/images/lifecycle.svg" alt="lifecycle_2" style="zoom:33%;width:2500px" /></div>
+
+- Vue3.0 中可以繼續使用 Vue2.x 中的生命週期鉤子，但有有兩個被改名:
+    - ```beforeDestroy```改名爲 ```beforeUnmount```
+    - ```destroyed```改名爲 ```unmounted```
+- Vue3.0 也提供了 Composition API 形式的生命週期鉤子，與 Vue2.x 中鉤子對應關係如下:
+    - `beforeCreate`===>`setup()`
+    - `created`=======>`setup()`
+    - `beforeMount` ===>`onBeforeMount`
+    - `mounted`=======>`onMounted`
+    - `beforeUpdate`===>`onBeforeUpdate`
+    - `updated` =======>`onUpdated`
+    - `beforeUnmount` ==>`onBeforeUnmount`
+    - `unmounted` =====>`onUnmounted`
+
+## 9.自定義 hook 函數
+- 什麼是 hook?—— 本質是一個函數，把 setup 函數中使用的 Composition API 進行了封裝。
+- 類似於 vue2.x 中的 mixin。
+- 自定義 hook 的優勢: 複用程式碼，讓 setup 中的邏輯更清楚易懂。
+

@@ -1,18 +1,16 @@
 <template>
     <button @click="isShowDemo = !isShowDemo">切換隱藏或顯示</button>
-    <Demo v-if="isShowDemo"></Demo>
-    <hr>
-    <Test></Test>
+    <Demo v-if="isShowDemo">
+    </Demo>
 </template>
 
 <script>
-    import {ref} from "vue";
     import Demo from "./compoents/Demo";
-    import Test from "./compoents/Test";
+    import {ref} from "vue";
 
     export default {
         name: 'App',
-        components: {Test, Demo},
+        components: {Demo},
         setup(){
             let isShowDemo = ref(true)
             return {
