@@ -14,7 +14,7 @@
 </template>
 
 <script>
-    import {ref, reactive, watch, watchEffect} from 'vue'
+    import {ref, reactive, watch} from 'vue'
 
     export default {
         name: "Demo",
@@ -22,7 +22,8 @@
             // 資料
             let sum = ref(0)
             let msg = ref('你好')
-            let person = reactive({
+            // 將 person 改用 ref
+            let person = ref({
                 name: 'dudulu',
                 age: 27,
                 job: {
@@ -31,19 +32,23 @@
                     },
                 },
             })
+            console.log(sum)
+            console.log(person)
 
-            // 監視
-            // watch(sum, (newValue, oldValue) => {
-            //     console.log('sum 的值變化了', newValue, oldValue)
-            // }, {immediate: true})
-
-            watchEffect(() => {
-                // const x1 = sum.value
-                // const x2 = person.job.j1.salary
-                sum.value
-                person.job.j1.salary
-                console.log('watchEffect 所指定的回調執行了')
+            // 這裡不能用 sum.value 是因為 sum.value 是基本類型的值，不是 RefImpl，可以到控制台查看 console.log(sum)。
+            watch(sum, (newValue, oldValue) => {
+                console.log('sum 的值變化了', newValue, oldValue)
             })
+
+            // 第一種方法: 因為是 ref 的形式，所以要監視到必須要.value 去監視裡面 Proxy，可以到控制台查看 console.log(person)
+            // watch(person.value, (newValue, oldValue) => {
+            //     console.log('person 的值變化了', newValue, oldValue)
+            // })
+
+            // 第二種方法: 因為是 ref 的形式，開啟 deep:true 深度監視就可以監視到了
+            watch(person, (newValue, oldValue) => {
+                console.log('person 的值變化了', newValue, oldValue)
+            }, {deep: true})
 
             // 返回一個對象(常用)
             return {

@@ -178,7 +178,7 @@ npm run dev
         - emit: 分發自定義事件的函數，相當於 ```this.$emit```。
 
 ## 7.計算屬性與監視
-### 1.computed函數
+### 1.computed 函數
 - 與 Vue2.x中 computed 設定功能一致
 - 寫法
     ```js
@@ -202,4 +202,59 @@ npm run dev
             }
         })
     }
+    ```
+
+### 2.watch 函數
+- 與 Vue2.x 中 watch 設定功能一致
+- 兩個小'坑': 
+    - 監視 reactive 定義的響應式資料時: oldValue 無法正確取得、強制開啓了深度監視(dee設定失效)。
+    - 監視 reactive 定義的響應式資料中某個屬性時: deep 設定有效。
+  
+    ```js
+    //情況一: 監視 ref 定義的響應式資料
+    watch(sum, (newValue,oldValue) => {
+        console.log('sum 變化了', newValue, oldValue)
+    }, {immediate: true})
+    
+    //情況二: 監視多個 ref 定義的響應式資料
+    watch([sum,msg], (newValue, oldValue) => {
+        console.log('sum 或 msg 變化了', newValue, oldValue)
+    }) 
+    
+    // 情況三: 監視 reactive 定義的響應式資料
+    // 若 watch 監視的是 reactive 定義的響應式資料，則無法正確獲得 oldValue!!
+    // 若 watch 監視的是 reactive 定義的響應式資料，則強制開啓了深度監視 
+    watch(person, (newValue, oldValue) => {
+        console.log('person 變化了', newValue, oldValue)
+    }, {immediate: true, deep: false}) // 此處的 deep 設定不會奏效
+    
+    //情況四: 監視 reactive 定義的響應式資料中的某個屬性
+    watch(() => person.job, (newValue, oldValue) => {
+        console.log('person 的 job 變化了', newValue, oldValue)
+    }, {immediate: true, deep: true}) 
+    
+    //情況五: 監視 reactive 定義的響應式資料中的某些屬性
+    watch([() => person.job, () => person.name], (newValue, oldValue) => {
+        console.log('person 的 job 變化了', newValue, oldValue)
+    }, {immediate: true, deep: true})
+    
+    //特殊情況
+    watch(() => person.job, (newValue, oldValue) => {
+        console.log('person 的 job 變化了', newValue, oldValue)
+    }, {deep: true}) // 此處由於監視的是 reactive 所定義的對象中的某個屬性，所以 deep 設定有效，但依然拿不到 oldValue
+    ```
+
+### 3.watchEffect 函數
+- watch 的套路是: 既要指明監視的屬性，也要指明監視的回調。
+- watchEffect 的套路是: 不用指明監視哪個屬性，監視的回調中用到哪個屬性，那就監視哪個屬性。
+- watchEffect 有點像 computed: 
+    - 但 computed 注重的計算出來的值(回調函數的返回值)，所以必須要寫返回值。
+    - 而 watchEffect 更注重的是過程(回調函數的函數體)，所以不用寫返回值。
+    ```js
+    // watchEffect 所指定的回調中用到的資料只要發生變化，則直接重新執行回調。
+    watchEffect(() => {
+        const x1 = sum.value
+        const x2 = person.age
+        console.log('watchEffect 設定的回調執行了')
+    })
     ```
