@@ -58,7 +58,7 @@ npm run serve
 
 ## 2.使用 vite 創建
 - 官方文檔: https://v3.cn.vuejs.org/guide/installation.html#vite
-- vite官網: https://vitejs.cn
+- vite 官網: https://vitejs.cn
 - 什麼是 vite? —— 新一代前端構建工具。
 - 優勢如下:
     - 開發環境中，無需打包操作，可快速的冷啓動。
@@ -100,7 +100,7 @@ npm run dev
 - 作用: 定義一個響應式的資料
 - 語法: ```const xxx = ref(initValue)``` 
   - 創建一個包含響應式資料的<strong style="color:#DD5145">引用對象(reference對象，簡稱 ref 對象)</strong>。
-  - JS中操作資料: ```xxx.value```
+  - JS 中操作資料: ```xxx.value```
   - 模板中讀取資料: 不需要.value，直接: ```<div>{{xxx}}</div>```
 - 備註:
   - 接收的資料可以是: 基本類型、也可以是對象類型。
@@ -280,3 +280,22 @@ npm run dev
 - 類似於 vue2.x 中的 mixin。
 - 自定義 hook 的優勢: 複用程式碼，讓 setup 中的邏輯更清楚易懂。
 
+## 10.toRef
+- 作用: 創建一個 ref 對象，其 value 值指向另一個對象中的某個屬性。
+- 語法: ```const name = toRef(person,'name')```
+- 應用: 要將響應式對象中的某個屬性單獨提供給外部使用時。
+- 擴展: ```toRefs``` 與```toRef```功能一致，但可以批量創建多個 ref 對象，語法: ```toRefs(person)```
+
+
+# 三、其它 Composition API
+## 1.shallowReactive 與 shallowRef
+- shallowReactive: 只處理對象最外層屬性的響應式(淺響應式)。
+- shallowRef: 只處理基本資料類型的響應式, 不進行對象的響應式處理。
+- 什麼時候使用?
+    - 如果有一個對象資料，結構比較深, 但變化時只是外層屬性變化 ===> shallowReactive。
+    - 如果有一個對象資料，後續功能不會修改該對象中的屬性，而是生新的對象來替換 ===> shallowRef。
+
+## 2.readonly 與 shallowReadonly
+- readonly: 讓一個響應式資料變爲只讀的(深只讀)。
+- shallowReadonly: 讓一個響應式資料變爲只讀的(淺只讀)。
+- 應用場景: 不希望資料被修改時。
