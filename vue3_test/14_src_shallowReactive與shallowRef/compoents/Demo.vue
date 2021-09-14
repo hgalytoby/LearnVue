@@ -15,7 +15,6 @@
     <button @click="name+='~'">修改姓名</button>
     <button @click="age++">增加年齡</button>
     <button @click="job.j1.salary++">加薪</button>
-    <button @click="job.j1.salary++">加薪</button>
 </template>
 
 <script>

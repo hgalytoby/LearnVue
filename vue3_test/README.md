@@ -184,7 +184,7 @@ npm run dev
     ```js
     import {computed} from 'vue'
     
-    setup () {
+    setup() {
         ...
         // 計算屬性 —— 簡寫
         let fullName = computed(() => {
@@ -299,3 +299,87 @@ npm run dev
 - readonly: 讓一個響應式資料變爲只讀的(深只讀)。
 - shallowReadonly: 讓一個響應式資料變爲只讀的(淺只讀)。
 - 應用場景: 不希望資料被修改時。
+    - 可能是別的組件的資料供其他人使用，但不希望資料被改。
+    
+## 3.toRaw 與 markRaw
+- toRaw: 
+    - 作用: 將一個由```reactive```生成的<strong style="color:orange">響應式對象</strong>轉爲<strong style="color:orange">普通對象</strong>。
+    - 使用場景: 用於讀取響應式對象對應的普通對象，對這個普通對象的所有操作，不會引起頁面更新。
+- markRaw: 
+  - 作用: 標記一個對象，使其永遠不會再成爲響應式對象。
+  - 應用場景:
+    1. 有些值不應被設置爲響應式的，例如複雜的第三方類庫等。
+    2. 當渲染具有不可變資料源的大列表時，跳過響應式轉換可以提高性能。
+    
+## 4.customRef
+- 作用: 創建一個自定義的 ref，並對其依賴項跟蹤和更新觸發進行顯式控制。
+- 實現防抖效果: 
+```vue
+    <template>
+        <input type="text" v-model="keyword">
+        <h3>{{ keyword }}</h3>
+    </template>
+    
+    <script>
+        import {ref, customRef} from 'vue'
+
+        export default {
+            name:'Demo',
+            setup() {
+                // let keyword = ref('hello') // 使用 Vue 準備好的內建 ref
+                // 自定義一個 myRef
+                function myRef(value,delay){
+                    let timer
+                    // 通過 customRef 去實現自定義
+                    return customRef((track, trigger) => {
+                        return {
+                            get() {
+                                track() // 告訴Vue這個 value 值是需要被"追蹤"的
+                                return value
+                            },
+                            set(newValue) {
+                                clearTimeout(timer)
+                                timer = setTimeout(() => {
+                                    value = newValue
+                                    trigger() // 告訴 Vue 去更新界面
+                                }, delay)
+                            }
+                        }
+                    })
+                }
+
+                let keyword = myRef('hello', 500) //使用程序員自定義的ref
+                return {
+                    keyword
+                }
+            }
+        }
+    </script>
+```
+
+  
+
+## 5.provide 與 inject
+<img src="https://v3.cn.vuejs.org/images/components_provide.png" style="width:300px"/>
+
+- 作用: 實現<strong style="color:#DD5145">祖與後代組件間</strong>通信
+- 套路: 父組件有一個 `provide` 選項來提供資料，後代組件有一個 `inject` 選項來開始使用這些資料
+- 具體寫法: 
+    - 1.祖組件中: 
+    ```js
+    setup() {
+        ...
+        let car = reactive({name: '奔馳', price: '40萬'})
+        provide('car', car)
+        ...
+    }
+    ```
+    - 2.後代組件中: 
+    ```js
+    setup(props, context){
+        ...
+        const car = inject('car')
+        return {car}
+        ...
+    }
+    ```
