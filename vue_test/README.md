@@ -372,11 +372,11 @@ module.exports = {
 ### 3.搭建vuex環境
 - 1.創建文件: ```src/store/index.js```
     ```js
-    //引入Vue核心庫
+    // 引入Vue核心庫
     import Vue from 'vue'
-    //引入Vuex
+    // 引入Vuex
     import Vuex from 'vuex'
-    //應用Vuex插件
+    // 應用Vuex插件
     Vue.use(Vuex)
     
     //準備 actions 對象——響應組件中用戶的動作
@@ -386,7 +386,7 @@ module.exports = {
     //準備 state 對象——保存具體的資料
     const state = {}
     
-    //創建並暴露store
+    // 創建並暴露store
     export default new Vuex.Store({
         actions,
         mutations,
@@ -413,15 +413,15 @@ module.exports = {
 ### 4.基本使用
 - 1.初始化資料、設定```actions```、設定```mutations```，操作文件```store.js```
     ```js
-    //引入 Vue
+    // 引入 Vue
     import Vue from 'vue'
-    //引入Vuex
+    // 引入Vuex
     import Vuex from 'vuex'
-    //引用Vuex
+    // 引用Vuex
     Vue.use(Vuex)
     
     const actions = {
-    //響應組件中加的動作
+    // 響應組件中加的動作
     jia(context, value){
         // console.log('actions 中的 jia 被調用了', miniStore, value)
         context.commit('JIA',value)
@@ -452,7 +452,7 @@ module.exports = {
 - 3.組件中修改 vuex 中的資料: ```$store.dispatch('action 中的方法名', 資料)``` 或 ```$store.commit('mutations 中的方法名', 資料)```
    >  備註: 若沒有網絡請求或其他業務邏輯，組件中也可以越過 actions，即不寫```dispatch```，直接編寫```commit```
 
-### 5.getters的使用
+### 5.getters 的使用
 - 1.概念: 當 state 中的資料需要經過加工後再使用時，可以使用 getters 加工。
 - 2.在```store.js```中追加```getters```設定
     ```js
@@ -515,7 +515,7 @@ module.exports = {
   
 > 備註: mapActions 與 mapMutations 使用時，若需要傳遞參數需要: 在模板中綁定事件時傳遞好參數，否則參數是事件對象。
 
-### 7.模塊化+命名空間
+### 7.模塊化 + 命名空間
 - 1.目的: 讓程式碼更好維護，讓多種資料分類更加明確。
 - 2.修改```store.js```
    ```js

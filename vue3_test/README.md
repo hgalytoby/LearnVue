@@ -212,7 +212,7 @@ npm run dev
   
     ```js
     //情況一: 監視 ref 定義的響應式資料
-    watch(sum, (newValue,oldValue) => {
+    watch(sum, (newValue, oldValue) => {
         console.log('sum 變化了', newValue, oldValue)
     }, {immediate: true})
     
